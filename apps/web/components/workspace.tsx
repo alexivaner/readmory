@@ -86,6 +86,21 @@ const date = (s: string | null) =>
         year: "numeric",
       })
     : "Not recorded";
+function AnnotationPassage({ text }: { text: string }) {
+  if (text.length <= 420) return <blockquote>{text}</blockquote>;
+  return (
+    <div className="annotation-reading">
+      <blockquote className="passage-preview">{text}</blockquote>
+      <details className="passage-full">
+        <summary>
+          <span className="passage-open">Read full highlight</span>
+          <span className="passage-close">Show less</span>
+        </summary>
+        <blockquote>{text}</blockquote>
+      </details>
+    </div>
+  );
+}
 function Cover({ book, large = false }: { book: Book; large?: boolean }) {
   const [failedCover, setFailedCover] = useState<string | null>(null);
   const hue = [...book.title].reduce((n, c) => n + c.charCodeAt(0), 0) % 6;
@@ -575,7 +590,13 @@ export default function Workspace() {
             <Heart size={16} fill={k?.favorite ? "currentColor" : "none"} />
           </button>
         </div>
-        {a.text && a.kind !== "note" && <blockquote>{a.text}</blockquote>}
+        {a.text &&
+          a.kind !== "note" &&
+          (page === "knowledge" && !activeBook ? (
+            <AnnotationPassage text={a.text} />
+          ) : (
+            <blockquote>{a.text}</blockquote>
+          ))}
         {ownNote && (
           <div className="personal-note">
             <StickyNote size={14} />
@@ -1565,14 +1586,17 @@ export default function Workspace() {
                 />
               )}
               {page === "knowledge" && (
-                <>
+                <section
+                  className="knowledge-workspace"
+                  aria-label="Knowledge library entries"
+                >
                   <div className="page-heading">
                     <div>
                       <h1>
                         Knowledge library<span className="green">.</span>
                       </h1>
                       <p className="subtitle">
-                        From a passing thought to a lasting connection
+                        Highlights and notes from your books.
                       </p>
                     </div>
                     <span className="count-badge">
@@ -1580,7 +1604,7 @@ export default function Workspace() {
                       {data.annotations.length} collected ideas
                     </span>
                   </div>
-                  <div className="toolbar">
+                  <div className="toolbar knowledge-toolbar">
                     <label className="search">
                       <Search size={16} />
                       <input
@@ -1728,7 +1752,7 @@ export default function Workspace() {
                       </div>
                     </section>
                   )}
-                </>
+                </section>
               )}
               {page === "import" && (
                 <>

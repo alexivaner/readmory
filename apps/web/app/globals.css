@@ -1,7 +1,8 @@
 /* Hallmark · checked: 2026-11-13 · genre: editorial · shape: app screen
- * theme: Readmory brand · built: the project · redesign: polish · copy: verbatim · v2.0.0 */
-/* Hallmark · finish-review: subagent · 2 findings · 2 resolved · gap: none */
-/* Hallmark · pre-emit critique: P4 H4 E3 S4 R4 V3 · weakest: E, centralize stray colors and show the actual synthetic library */
+ * theme: Readmory brand · built: the project · redesign: full · copy: verbatim · v2.0.0 */
+/* Hallmark · signature: one passage at a time, bordered reading entries with expandable long highlights */
+/* Hallmark · finish-review: subagent · ship · desktop, mobile and dark captures */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, replace the unboxed two-column feed with separated single-column reading entries */
 /* Hallmark · dismissed 25 · empty-state captions are short instructions, not long-form prose */
 /* Hallmark · dismissed 40 · primary colors switch together by theme; disabled controls are inactive and use fill, ink and cursor */
 /* Hallmark · dismissed 49 · long import and statistics controls wrap on narrow screens without truncation */
@@ -1159,6 +1160,115 @@ summary {
   background: transparent;
   padding: var(--space-20) 0;
   overflow: hidden;
+}
+
+.knowledge-workspace {
+  width: 100%;
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+.knowledge-toolbar {
+  flex-wrap: wrap;
+  gap: var(--space-12);
+  padding-bottom: var(--space-20);
+  border-bottom: 1px solid var(--line);
+}
+
+.knowledge-toolbar .search {
+  flex-basis: 100%;
+  border-color: var(--muted);
+}
+
+.knowledge-toolbar select {
+  border-color: var(--muted);
+}
+
+.knowledge-toolbar .search input {
+  min-height: 32px;
+}
+
+.knowledge-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-24);
+}
+
+.knowledge-grid > .annotation {
+  padding: var(--space-24) var(--space-28);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+}
+
+.knowledge-grid .annotation-top {
+  margin-bottom: var(--space-16);
+}
+
+.knowledge-grid .annotation blockquote {
+  font-size: 20px;
+  line-height: 1.65;
+  max-width: 64ch;
+}
+
+.knowledge-grid .annotation-footer {
+  padding-top: var(--space-16);
+  border-top: 1px solid var(--line);
+  margin-top: var(--space-24);
+  align-items: baseline;
+}
+
+.knowledge-grid .annotation-footer .text-link {
+  text-align: left;
+  line-height: 1.5;
+  min-width: 0;
+}
+
+.knowledge-grid .tag-row {
+  align-items: center;
+  margin-top: var(--space-8);
+}
+
+.passage-preview {
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.passage-full summary {
+  cursor: pointer;
+  color: var(--green);
+  font-size: var(--text-sm);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.passage-full summary:hover {
+  color: var(--ink);
+}
+
+.passage-close,
+.passage-full[open] .passage-open,
+.annotation-reading:has(.passage-full[open]) > .passage-preview {
+  display: none;
+}
+
+.passage-full[open] .passage-close {
+  display: inline;
+}
+
+@media (max-width: 760px) {
+  .knowledge-grid > .annotation {
+    padding: var(--space-20) var(--space-16);
+  }
+
+  .knowledge-grid .annotation blockquote {
+    font-size: 18px;
+  }
 }
 
 .annotation-top {

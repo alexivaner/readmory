@@ -6,8 +6,8 @@
     "motion": "CSS transitions, reduced-motion fallback; apps/web/app/globals.css:78",
     "spacing": "Existing mixed numeric scale; apps/web/app/globals.css",
     "framework": "Next.js 16.4.4 / React 19 / Tailwind 4; package.json:30-40",
-    "scope": "Polish of Antigravity changes; existing app shell and /welcome retained",
-    "working_tree": "User explicitly approved current files as baseline without committing or stashing.",
+    "scope": "Full redesign of Knowledge library only; workspace.tsx:1588",
+    "working_tree": "Clean baseline fee86d0",
     "render": "Hallmark render completed using puppeteer-core installed only in /private/tmp/readmory-hallmark-tools."
   },
   "preserve": [
@@ -17,7 +17,9 @@
     "Existing uncommitted work"
   ],
   "introduce": [
-    "Actual synthetic-fixture shelf capture on welcome",
-    "Centralized remaining colors and consistent 4px panel/control corners"
+    "Single-column bounded reading entries",
+    "Distinct paper surfaces and borders",
+    "Native expandable long highlights",
+    "Separate search row and filters"
   ]
 }

@@ -1,6 +1,26 @@
 [
   {
     "mode": "redesign",
+    "depth": "full",
+    "scope": "app",
+    "shape": "app screen",
+    "theme": "Readmory brand",
+    "entry": "apps/web/components/workspace.tsx",
+    "signature": "One passage at a time, bounded reading entries with expandable long highlights",
+    "prompt": "Separate knowledge entries and reduce simultaneous reading load",
+    "waived": [],
+    "sections": [
+      "heading",
+      "search",
+      "filters",
+      "single-column passages",
+      "connections",
+      "reflections"
+    ],
+    "review": "ship; independent reviewer; stable desktop, mobile and dark captures"
+  },
+  {
+    "mode": "redesign",
     "depth": "polish",
     "scope": "app",
     "theme": "Readmory brand",

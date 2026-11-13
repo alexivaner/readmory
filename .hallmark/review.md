@@ -55,3 +55,34 @@ annotation, backup or screenshot is staged.
 
 No stock pictures or replacement image slots were added. Future shelf changes
 should regenerate the synthetic example capture.
+
+## Knowledge library separation redesign
+
+User correction: the unboxed two-column feed felt overwhelming.
+Recomposed only Knowledge library as a single column capped at 1040px, with
+paper entries, borders and 24px gaps. Source metadata, book references and
+topic actions remain secondary to the passage. Long highlights show a five-line
+preview and native disclosure; full original text remains available without
+scripting. Book detail and overview passages remain fully expanded.
+
+Search has its own row, with filters below. Control borders meet the rendered
+contrast check. All existing 14 static links and 121 handlers remain.
+
+Copy: “From a passing thought to a lasting connection” becomes “Highlights and
+notes from your books.” (gate 69: replace figurative boilerplate with the task).
+No reading text, source identifier, storage key or disclosure was rewritten.
+
+Hallmark final: zero FAIL, zero REFLEX, zero WARN. The independent review
+returned ship after mobile screenshots were retaken after navigation settled.
+Baseline showed full passages immediately and fit more entries side by side;
+the redesign exchanges this density for focused reading and distinct boundaries.
+No photo slots or new external material were introduced. All capture data comes
+from authored synthetic SQLite fixtures; the user's screenshot stays private.
+
+New browser regression verifies independent expansion with the keyboard, intact
+favorite/topic actions and dark mobile layout.
+
+Validation for this revision: typecheck, lint, unit tests (87 passed, one private
+fixture skipped), root production build and /readmory production build passed.
+Root browser suite: 32 passed, two expected skips. Production-path regressions:
+seven passed, including SQLite/offline import and the new long-highlight case.
