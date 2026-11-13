@@ -608,7 +608,7 @@ export default function Workspace() {
         )}
         <div className="annotation-footer">
           <button className="text-link" onClick={() => openBook(a.bookId)}>
-            {book?.title || "Book"}
+            <span className="book-link-title">{book?.title || "Book"}</span>
             <ArrowUpRight size={14} />
           </button>
           <span>{date(a.created)}</span>
@@ -1604,7 +1604,7 @@ export default function Workspace() {
                       {data.annotations.length} collected ideas
                     </span>
                   </div>
-                  <div className="toolbar knowledge-toolbar">
+                  <div className="toolbar reading-toolbar">
                     <label className="search">
                       <Search size={16} />
                       <input
@@ -1722,7 +1722,7 @@ export default function Workspace() {
                       <div className="section-heading">
                         <h2>Your reflections</h2>
                       </div>
-                      <div className="annotation-grid">
+                      <div className="annotation-grid knowledge-grid">
                         {data.reflections
                           .filter(
                             (r) =>

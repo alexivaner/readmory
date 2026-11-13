@@ -108,3 +108,40 @@ book-detail checks. The corrected targeted regression passed.
 Final validation: typecheck, lint, 87 unit tests, root and /readmory builds,
 32 applicable root browser tests and seven production-path regressions passed.
 Two conditional browser tests and one private-fixture unit case remain skipped.
+
+## Shared-content re-audit
+
+User screenshots exposed clipped Knowledge library book links and Personal notes
+still using the old unboxed layout. Previous synthetic title fixtures were too
+short to expose the shared no-wrap defect.
+
+Fixed the shared text-link default: wrapping, shrinkable width and bounded size
+now apply across the workspace. Book references in annotation and note entries
+use a shrinkable title span. Removed overflow masking from reading entries.
+All annotations, reader notes and reflections now share paper surfaces, fine
+borders, 4px corners and interior padding. Personal notes shares Knowledge
+library's capped width, two-column desktop layout and single-column mobile
+layout. Reflections use the same grid and have proper section separation.
+
+The expanded audit also reproduced overflow from a long topic identifier.
+Topic pills now wrap, and native selects remain bounded by their toolbar.
+
+Synthetic content regression checks eight workspace destinations at six widths
+(1920, 1440, 1024, 768, 390, 320) in both themes: 96 layouts. It also checks
+book-detail entries at all six widths in both themes, plus populated personal
+reflections. Long titles include unbroken identifiers; notes and topics exercise
+long unbroken text. Checks inspect actual text-link and entry scroll extents,
+page width, visible entry boundaries, and navigation back to the book.
+
+Personal notes and Knowledge library screenshots were inspected in both themes.
+The user's screenshots and library content were never used in test fixtures or
+public artifacts. Existing synthetic overview preview is refreshed.
+Hallmark static and rendered sweeps: zero FAIL, zero REFLEX, zero WARN.
+
+Final verification for the shared-content re-audit: typecheck, lint, unit suite
+(87 passed, one conditional private-fixture skip), root build and production
+/readmory build passed. Full root browser suite: 34 passed, two conditional
+skips. Four production-path regressions passed, including the same 108-layout
+content audit, offline import, independent highlight disclosure and long session
+titles. No source book, annotation, note, credential or personal screenshot was
+added to source control.

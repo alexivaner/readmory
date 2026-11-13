@@ -6,7 +6,7 @@
     "motion": "CSS transitions, reduced-motion fallback; apps/web/app/globals.css:78",
     "spacing": "Existing mixed numeric scale; apps/web/app/globals.css",
     "framework": "Next.js 16.4.4 / React 19 / Tailwind 4; package.json:30-40",
-    "scope": "Two-column Knowledge library and shared separated annotations inside book details",
+    "scope": "Shared user-content audit across all workspace destinations, notes and book details",
     "working_tree": "Clean baseline fee86d0",
     "render": "Hallmark render completed using puppeteer-core installed only in /private/tmp/readmory-hallmark-tools."
   },
@@ -17,8 +17,8 @@
     "Existing uncommitted work"
   ],
   "introduce": [
-    "Two desktop columns with distinct bordered entries",
-    "Shared paper surfaces and 24px spacing in per-book annotations",
-    "Native expandable long highlights in both views"
+    "Shared wrapping and entry-surface rules",
+    "Synthetic long-content coverage across 108 layouts",
+    "Consistent notes and reflection grid"
   ]
 }

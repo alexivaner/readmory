@@ -67,3 +67,15 @@ Search occupies its own row; filters sit below it. Preserve all favorite, topic,
 book and location actions. Apply the same bordered surfaces, spacing and long-
 highlight disclosures to the annotations inside each book. Keep book annotations
 in one column beside the reflection panel so the reading measure stays usable.
+
+## Shared content rules
+
+Book links and other text actions wrap by default. Never use `nowrap` on
+user-provided titles or hide overflow to mask a layout error. Keep icons fixed
+and let the title shrink and wrap, including unbroken identifiers. Topic pills
+wrap and selects stay within their toolbar.
+
+All annotation, note and reflection entries share a paper surface, fine border,
+4px corners and interior padding. Personal notes uses the same capped width,
+two-column desktop grid, single-column mobile grid and search/filter hierarchy
+as Knowledge library. Notes and reflections retain their original words.

@@ -51,7 +51,7 @@ export default function PersonalNotes({
     .sort((a, b) => b.created.localeCompare(a.created));
   const count = mode === "reader" ? notes.length : reflections.length;
   return (
-    <>
+    <section className="personal-notes-workspace" aria-label="Personal notes entries">
       <div className="page-heading">
         <div>
           <h1>
@@ -80,7 +80,7 @@ export default function PersonalNotes({
           My reflections <span>{library.reflections.length}</span>
         </button>
       </div>
-      <div className="toolbar">
+      <div className="toolbar reading-toolbar">
         <label className="search">
           <Search size={16} />
           <input
@@ -159,7 +159,7 @@ export default function PersonalNotes({
                     onClick={() => onOpenBook(a.bookId)}
                   >
                     <BookOpen size={16} />
-                    {books.get(a.bookId)?.title || "Open book"}
+                    <span className="book-link-title">{books.get(a.bookId)?.title || "Open book"}</span>
                     <ArrowUpRight size={16} />
                   </button>
                 </article>
@@ -179,7 +179,7 @@ export default function PersonalNotes({
                     onClick={() => onOpenBook(r.bookId)}
                   >
                     <BookOpen size={16} />
-                    {books.get(r.bookId)?.title || "Open book"}
+                    <span className="book-link-title">{books.get(r.bookId)?.title || "Open book"}</span>
                     <ArrowUpRight size={16} />
                   </button>
                 </article>
@@ -212,6 +212,6 @@ export default function PersonalNotes({
           Show more notes
         </button>
       )}
-    </>
+    </section>
   );
 }

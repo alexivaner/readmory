@@ -1,8 +1,8 @@
 /* Hallmark · checked: 2026-11-13 · genre: editorial · shape: app screen
  * theme: Readmory brand · built: the project · redesign: full · copy: verbatim · v2.0.0 */
-/* Hallmark · signature: separated reading entries in Knowledge library and book details */
-/* Hallmark · finish-review: subagent · ship · desktop, mobile and dark captures */
-/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, replace the unboxed two-column feed with separated single-column reading entries */
+/* Hallmark · signature: separated entries and wrapping content links across reading views */
+/* Hallmark · finish-review: in-thread · shared links, entry boundaries and long-content captures inspected */
+/* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: E, replace shared nowrap and unify reading-entry boundaries */
 /* Hallmark · dismissed 25 · empty-state captions are short instructions, not long-form prose */
 /* Hallmark · dismissed 40 · primary colors switch together by theme; disabled controls are inactive and use fill, ink and cursor */
 /* Hallmark · dismissed 49 · long import and statistics controls wrap on narrow screens without truncation */
@@ -507,7 +507,10 @@ small {
   font-weight: 500;
   color: var(--green);
   text-align: left;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .text-link:hover {
@@ -520,6 +523,10 @@ small {
 }
 
 .pill {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
   background: var(--pale);
   color: var(--ink);
   font-size: 12px;
@@ -606,6 +613,8 @@ select,
 }
 
 select {
+  min-width: 0;
+  max-width: 100%;
   padding-right: var(--space-28);
 }
 
@@ -1154,50 +1163,46 @@ summary {
 
 .annotation,
 .note-card {
-  border: 0;
-  border-top: 1px solid var(--line);
-  border-radius: 0;
-  background: transparent;
-  padding: var(--space-20) 0;
-  overflow: hidden;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  padding: var(--space-24) var(--space-28);
+  min-width: 0;
 }
 
-.knowledge-workspace {
+.knowledge-workspace,
+.personal-notes-workspace {
   width: 100%;
   max-width: 1040px;
   margin-inline: auto;
 }
 
-.knowledge-toolbar {
+.reading-toolbar {
   flex-wrap: wrap;
   gap: var(--space-12);
   padding-bottom: var(--space-20);
   border-bottom: 1px solid var(--line);
 }
 
-.knowledge-toolbar .search {
+.reading-toolbar .search {
   flex-basis: 100%;
   border-color: var(--muted);
 }
 
-.knowledge-toolbar select {
+.reading-toolbar select {
+  max-width: min(100%, 20rem);
   border-color: var(--muted);
 }
 
-.knowledge-toolbar .search input {
+.reading-toolbar .search input {
   min-height: 32px;
 }
 
-.knowledge-grid {
+.knowledge-grid,
+.personal-notes-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-24);
-}
-
-:is(.knowledge-grid, .annotation-list) > .annotation {
-  padding: var(--space-24) var(--space-28);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  background: var(--paper);
 }
 
 :is(.knowledge-grid, .annotation-list) .annotation-top {
@@ -1262,7 +1267,8 @@ summary {
 }
 
 @media (max-width: 760px) {
-  :is(.knowledge-grid, .annotation-list) > .annotation {
+  .annotation,
+  .note-card {
     padding: var(--space-20) var(--space-16);
   }
 
@@ -1318,6 +1324,7 @@ summary {
 }
 
 .annotation-footer .text-link {
+  align-items: flex-start;
   font-size: 14px;
   max-width: 100%;
 }
@@ -1352,6 +1359,7 @@ summary {
 
 .connections {
   margin-top: var(--space-32);
+  margin-bottom: var(--space-32);
 }
 
 .connection {
@@ -1390,7 +1398,7 @@ summary {
 }
 
 .view-switch button > span {
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
@@ -1437,7 +1445,18 @@ summary {
   margin: var(--space-12) 0;
 }
 
+.book-link-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.annotation-footer .text-link > svg,
+.note-book-link > svg {
+  margin-top: var(--space-4);
+}
+
 .note-book-link {
+  align-items: flex-start;
   margin-top: var(--space-12);
   font-size: 14px;
   line-height: 1.5;

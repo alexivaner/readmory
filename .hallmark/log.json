@@ -1,6 +1,22 @@
 [
   {
     "mode": "redesign",
+    "depth": "polish",
+    "scope": "app",
+    "theme": "Readmory brand",
+    "entry": "apps/web/app/globals.css",
+    "prompt": "Reaudit clipped titles and inconsistent note-entry separation",
+    "changes": [
+      "Shared wrapping defaults for content links",
+      "Shared bounded paper entry surfaces",
+      "Personal notes aligned with knowledge workspace",
+      "Topic and select bounds",
+      "Reflection grid and section spacing"
+    ],
+    "waived": []
+  },
+  {
+    "mode": "redesign",
     "depth": "restyle",
     "scope": "app",
     "theme": "Readmory brand",
