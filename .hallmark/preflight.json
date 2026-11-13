@@ -1,12 +1,12 @@
 {
   "scanned": "2026-11-13",
   "findings": {
-    "fonts": "System sans for workspace, Georgia for wordmark and quotations; apps/web/app/globals.css:43,92; apps/web/components/brand.tsx:26",
-    "palette": "Forest #1b2b22, deep green #2f4a3c, sage #a9cc8a, cream #f7f3e9; apps/web/app/globals.css:2-21",
+    "fonts": "System sans controls and data, Georgia titles; apps/web/app/tokens.css:62",
+    "palette": "Forest, deep green, sage and cream; apps/web/app/tokens.css:3",
     "motion": "CSS transitions, reduced-motion fallback; apps/web/app/globals.css:78",
     "spacing": "Existing mixed numeric scale; apps/web/app/globals.css",
     "framework": "Next.js 16.4.4 / React 19 / Tailwind 4; package.json:30-40",
-    "scope": "App screen / with hash destinations owned by workspace.tsx; marketing page /welcome owned by app/welcome/page.tsx",
+    "scope": "Polish of Antigravity changes; existing app shell and /welcome retained",
     "working_tree": "User explicitly approved current files as baseline without committing or stashing.",
     "render": "Hallmark render completed using puppeteer-core installed only in /private/tmp/readmory-hallmark-tools."
   },
@@ -17,9 +17,7 @@
     "Existing uncommitted work"
   ],
   "introduce": [
-    "Forest navigation rail and book-first overview",
-    "Plain title/author fallback covers with original cover imports preserved",
-    "Unified root tokens and four-pixel spacing scale",
-    "Unboxed annotation surfaces, restrained type and functional labels"
+    "Actual synthetic-fixture shelf capture on welcome",
+    "Centralized remaining colors and consistent 4px panel/control corners"
   ]
 }

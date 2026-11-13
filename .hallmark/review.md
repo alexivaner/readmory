@@ -1,75 +1,53 @@
-# Readmory Hallmark redesign review
+# Readmory design audit and polish
 
-Date: 2026-11-13. Baseline: the user explicitly approved continuing from the
-existing uncommitted UI work. The unrelated marketing folder was not edited.
+Date: 2026-11-13. Baseline: the existing Antigravity working-tree changes,
+retained under the user's instruction to audit, finish, sync and deploy.
 
 ## Result
 
-Books lead the overview; measured statistics follow them. Forest navigation,
-cream reading surfaces, title/author book fallbacks and unboxed quotations give
-the app a consistent reading-oriented hierarchy. Original branding, cover
-imports, routes, storage keys, source identifiers and handlers remain.
+The book-first workspace and forest/cream system work well. A full redesign
+would add churn without improving the reading task. Retained the app shell,
+all routes, storage identifiers, source labels, backup behavior and handlers.
 
-The independent finish reviewer returned `ship`, with no actionable visual
-findings in the supplied desktop, mobile, empty and populated screenshots.
+Centralized nine stray color usages, aligned control/panel corner tokens with
+design.md, removed positive tracking on labels, used the body face for count
+badges, and replaced opacity-only primary hover styling with a theme-aware fill.
 
-## Evidence
+The welcome preview is now an actual app capture made in an isolated browser
+using only fixtures/generated/KoboReader.sqlite. Its caption identifies synthetic
+example data. This replaces a manually composed shelf with inconsistent reading
+percentages and a sample quote/date. The original brand icon remains available.
+The welcome meta line uses sentences instead of a middle-dot separator.
+Privacy, donation and consent disclosures retain their exact wording.
 
-- Hallmark before: 87 automated Floor flags and 295 Reflex flags.
-- Final static scan: one keyword false positive, zero Reflex, zero WARN;
-  three Finish answers and five recorded label-warning dismissals.
-- The false positive is `unlock` in the unchanged sentence:
-  “Donations never unlock or restrict features.” This is a literal donation
-  disclaimer, not a claim promising a benefit. The wording was preserved.
-- Rendered preservation comparison: 19/19 links, 121/121 handlers and
-  11/11 rendered headings retained. No route or component file was deleted.
-- Typecheck, lint and production build passed.
-- Unit tests: 87 passed; private-fixture case skipped.
-- Root-path Playwright suite: 31 passed; subpath/private-hardware cases skipped.
-- Final `/readmory` Playwright checks: 10 passed, including offline import,
-  branding, guided import, menu keyboard behavior and filter recovery.
-- Populated layout audit: 96 layouts, eight destinations at six widths
-  (320, 390, 768, 1024, 1440, 1920) in both themes; no horizontal overflow
-  or page errors.
-- Measured contrast: body 13.39:1 in both themes; muted text 4.94:1 light
-  and 8.88:1 dark; primary action text 9.47:1 light and 7.06:1 dark.
-- Rendered comparison: `.hallmark/compare.html` (local, ignored by Git).
+## Hallmark verification
 
-## Presentation copy changes
+- Baseline: 16 Floor flags, one Reflex flag.
+- Final static and rendered comparison: zero FAIL, zero REFLEX, zero WARN.
+- Nine recorded warning dismissals, one answered Finish finding. The unchanged
+  donation disclaimer contains “unlock”; verbatim copy is recorded in the stamp.
+- Retained 18/18 links, 121/121 handlers and 9/9 headings. The removed sample
+  date and illustrative image are recorded in the CSS stamp.
+- Captures: 1280, 1440, 1920 desktop widths and 375 mobile width.
+- Independent finish review: two findings, both resolved on recapture: excess
+  screenshot space and mobile legibility. Baseline had more legible sample
+  book labels; the tighter actual-app capture restores that strength.
+- Comparison: .hallmark/compare.html (local and ignored).
 
-- Removed the redundant “Workspace” line above navigation.
-- Removed “ONE BOOK, EVERY READER”; retained “Reader sources”.
-- “FROM YOUR [SOURCE] RECORD” → “From your [source] record”.
-- “OPEN LIBRARY · WORK-LEVEL METADATA” → “Open Library work-level metadata”.
-- “YOUR NOTE” / “YOUR REFLECTION” → sentence case.
-- Source names now use Kobo, KOReader or Kobalt brand spelling. The existing
-  KOBALT BOOKMARK identifier remains intact for its integration contract.
-- Archived annotation labels use a comma and sentence case.
-- “About this project ↗” → “About this project”.
-- Welcome labels “View on GitHub ↗”, “Open App →”, “Start guided import →”
-  and “Support Readmory on Ko-fi ↗” lost their ornamental arrow suffixes.
-- “Unlock your Kobo, reconnect …” → “Dismiss your Kobo’s lock screen,
-  reconnect …”; the same troubleshooting instruction remains.
-- “Title A–Z” → “Title A to Z”; sort values are unchanged.
-- Reading-status captions, shelf source lists, snapshot dates and filtered-book
-  totals use commas instead of middle-dot separators.
-- “Duration unavailable · [n] annotation dates · [n] …” →
-  “Duration unavailable; [n] annotation dates, [n] …”. Evidence stays distinct.
-- Forward-arrow icons were removed from workspace/import action labels.
-  External-link indicators and directional navigation retain their meaning.
+## Project checks
 
-Privacy, donation and consent disclosures retain their wording. No source book,
-annotation, note or quotation was rewritten. Existing supported-source option
-labels and diagnostic labels remain intact.
+Typecheck, lint, unit tests (87 passed, one private-fixture case skipped), and
+production build passed. Root Playwright: 31 passed, two expected skips
+(subpath-only test and private real-device fixture). Production /readmory build
+and ten subpath regressions also passed, including offline import and branding.
 
-## Material
+## Public assets
 
-No stand-in photographs or replacement image slots were added. Existing brand
-assets and imported book covers carry the design. Missing covers use a plain
-book title and author; no fabricated artwork or external lookup was introduced.
-A representative, approved screenshot of a larger synthetic library would be
-the most useful additional material for future welcome-page work.
+Existing launch recordings, screenshots, decks and private document links remain
+ignored and local. Included launch text/scripts and the separate synthetic-only
+introduction kit. The intro kit's source explicitly imports authored fixtures in
+an isolated context and blocks external requests. No real Kobo database, book,
+annotation, backup or screenshot is staged.
 
-## Delivery
-
-Local and uncommitted. No GitHub mutation or deployment was performed.
+No stock pictures or replacement image slots were added. Future shelf changes
+should regenerate the synthetic example capture.

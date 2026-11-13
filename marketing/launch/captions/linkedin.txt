@@ -1,0 +1,6 @@
+I built Readmory because I wanted to come back to more than a list of books I’d read.
+It brings Kobo, KOReader and Kobalt reading records into one local workspace. This is my own cleaned library in the app.
+I can explore recorded reading time, open a day in the calendar, and see the source behind the history. Estimates stay labeled.
+Search brings old highlights back into reach. Personal notes stay separate from the quoted passage, so my own thoughts are easier to revisit.
+The core works without an account. Reading data stays in the browser, and portable backups help protect it. Cover lookup is optional.
+It’s an independent, open-source public beta. If you use a Kobo or one of these readers, I’d love your feedback.

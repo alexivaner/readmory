@@ -1,0 +1,51 @@
+[
+  {
+    "slide": 2,
+    "clip": "clips/10-import-synthetic-landscape.mp4",
+    "embedded_sha256": "6edaeeb76a8dacfd15f1f4ce549de361607e6788747731c49c8152b5bcf6e523",
+    "playback": "automatic",
+    "duration_seconds": 20
+  },
+  {
+    "slide": 3,
+    "clip": "clips/02-library-landscape.mp4",
+    "embedded_sha256": "a5d29bb1d0e9c5ee29f6f5ce07470e8093233687c346a8e4a7f3895cb582de8e",
+    "playback": "automatic",
+    "duration_seconds": 28
+  },
+  {
+    "slide": 4,
+    "clip": "clips/03-statistics-landscape.mp4",
+    "embedded_sha256": "e9ee5b6c523a8072c7f24ba73d911be624c113b75a4016f341c34c8bd1fd04ed",
+    "playback": "automatic",
+    "duration_seconds": 9
+  },
+  {
+    "slide": 5,
+    "clip": "clips/04-rhythm-landscape.mp4",
+    "embedded_sha256": "aec89b0b11c5fff94c36ba43473f9661f995c91d953c0b9c609b9e3d6a140974",
+    "playback": "automatic",
+    "duration_seconds": 9
+  },
+  {
+    "slide": 6,
+    "clip": "clips/05-knowledge-landscape.mp4",
+    "embedded_sha256": "638b274c875047152e2ff1dd4a75e76fdd7df0b3aa0486f9aa2c5d52ebd08e40",
+    "playback": "automatic",
+    "duration_seconds": 21
+  },
+  {
+    "slide": 7,
+    "clip": "clips/06-notes-landscape.mp4",
+    "embedded_sha256": "343643e1fe310a4ce81fc118dcbeb7c65880439013055670e44a56d604382d48",
+    "playback": "automatic",
+    "duration_seconds": 9
+  },
+  {
+    "slide": 8,
+    "clip": "clips/08-privacy-backup-landscape.mp4",
+    "embedded_sha256": "7aa34d1b493849549243c708802f940fbb88c9c57d243f340e0a2d479473f267",
+    "playback": "automatic",
+    "duration_seconds": 10
+  }
+]

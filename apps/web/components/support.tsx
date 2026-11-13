@@ -39,9 +39,9 @@ export function SupportLink({
         window.dispatchEvent(new Event("readmory-support-opened"));
       }}
     >
-      <Coffee size={18} aria-hidden="true" />
+      <Coffee size={16} aria-hidden="true" />
       <span>{compact ? "Support" : "Support Readmory"}</span>
-      <ArrowUpRight size={15} aria-hidden="true" />
+      <ArrowUpRight size={14} aria-hidden="true" />
     </a>
   );
 }
@@ -84,7 +84,7 @@ export default function SupportReminder({ eligible }: { eligible: boolean }) {
   return (
     <aside className="support-reminder" aria-label="Support Readmory reminder">
       <div>
-        <Coffee size={21} aria-hidden="true" />
+        <Coffee size={16} aria-hidden="true" />
         <p>Enjoying Readmory? Help keep it growing.</p>
       </div>
       <a
@@ -97,7 +97,7 @@ export default function SupportReminder({ eligible }: { eligible: boolean }) {
           setVisible(false);
         }}
       >
-        Support on Ko-fi <ArrowUpRight size={15} aria-hidden="true" />
+        Support on Ko-fi <ArrowUpRight size={14} aria-hidden="true" />
       </a>
       <button
         className="icon-button"
@@ -107,7 +107,7 @@ export default function SupportReminder({ eligible }: { eligible: boolean }) {
           setVisible(false);
         }}
       >
-        <X size={18} />
+        <X size={16} />
       </button>
     </aside>
   );

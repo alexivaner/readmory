@@ -27,7 +27,6 @@ import {
   Loader2,
   Menu,
   Tag,
-  Link as LinkIcon,
 } from "lucide-react";
 import {
   type Book,
@@ -100,10 +99,8 @@ function Cover({ book, large = false }: { book: Book; large?: boolean }) {
         />
       ) : (
         <>
-          <small>{book.author}</small>
           <strong>{book.title}</strong>
-
-          <BookOpen size={18} aria-hidden="true" />
+          <small>{book.author}</small>
         </>
       )}
     </div>
@@ -123,7 +120,7 @@ function Empty({
   return (
     <div className="empty">
       <div className="empty-icon">
-        <BookOpen size={28} />
+        <BookOpen size={20} />
       </div>
       <h3>{title}</h3>
       <p>{text}</p>
@@ -575,7 +572,7 @@ export default function Workspace() {
               })
             }
           >
-            <Heart size={17} fill={k?.favorite ? "currentColor" : "none"} />
+            <Heart size={16} fill={k?.favorite ? "currentColor" : "none"} />
           </button>
         </div>
         {a.text && a.kind !== "note" && <blockquote>{a.text}</blockquote>}
@@ -591,7 +588,7 @@ export default function Workspace() {
         <div className="annotation-footer">
           <button className="text-link" onClick={() => openBook(a.bookId)}>
             {book?.title || "Book"}
-            <ArrowUpRight size={13} />
+            <ArrowUpRight size={14} />
           </button>
           <span>{date(a.created)}</span>
         </div>
@@ -620,7 +617,7 @@ export default function Workspace() {
               setTagEdit({ id: a.id, value: k?.tags.join(", ") || "" })
             }
           >
-            <Plus size={12} /> Add topics
+            <Plus size={14} /> Add topics
           </button>
         </div>
       </article>
@@ -645,7 +642,7 @@ export default function Workspace() {
                 ),
               ].join(", ")}
             </span>
-            {b.status === "finished" && <Check size={13} />}
+            {b.status === "finished" && <Check size={14} />}
           </div>
           <h3>{b.title}</h3>
           <p>{b.author}</p>
@@ -738,7 +735,7 @@ export default function Workspace() {
           </a>
           <SupportLink className="nav-item sidebar-support" />
           <div className="sidebar-foot">
-            <ShieldCheck size={20} aria-hidden="true" />
+            <ShieldCheck size={16} aria-hidden="true" />
             <div>
               <strong>Local library</strong>
             </div>
@@ -747,7 +744,7 @@ export default function Workspace() {
               className="icon-button"
               onClick={toggleTheme}
             >
-              {theme === "light" ? <Moon size={17} /> : <Sun size={17} />}
+              {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
             </button>
           </div>
         </div>
@@ -763,13 +760,13 @@ export default function Workspace() {
               aria-controls="workspace-navigation"
               onClick={() => setMobile(!mobile)}
             >
-              <Menu size={20} />
+              <Menu size={18} />
             </button>
             <span className="workspace-crumb">My workspace</span>
             <span className="mobile-brand">
               <Brand compact />
             </span>
-            <ChevronRight size={13} />
+            <ChevronRight size={14} />
             <strong>
               {activeBook
                 ? "Book details"
@@ -778,7 +775,7 @@ export default function Workspace() {
           </div>
           <div className="top-actions">
             <span className="storage-state">
-              <ShieldCheck size={15} aria-hidden="true" /> Stored on this device
+              <ShieldCheck size={14} aria-hidden="true" /> Stored on this device
             </span>
             <SupportLink className="support-topbar" compact />
             <button
@@ -786,7 +783,7 @@ export default function Workspace() {
               aria-label="Open settings"
               onClick={() => navigate("settings")}
             >
-              <Settings size={18} />
+              <Settings size={16} />
             </button>
           </div>
         </header>
@@ -882,20 +879,20 @@ export default function Workspace() {
                   <p className="subtitle">{activeBook.author}</p>
                   <div className="detail-facts">
                     <span>
-                      <BookOpen size={15} />
+                      <BookOpen size={14} />
                       {activeBook.progress === null
                         ? "Progress not recorded"
                         : Math.round(activeBook.progress) + "% read"}
                     </span>
                     <span>
-                      <Clock size={15} />
+                      <Clock size={14} />
                       {duration(activeBook.duration)}
                       {activeBook.durationKind === "recorded"
                         ? " recorded"
                         : ""}
                     </span>
                     <span>
-                      <Quote size={15} />
+                      <Quote size={14} />
                       {
                         data.annotations.filter((a) => activeIds.has(a.bookId))
                           .length
@@ -1006,7 +1003,7 @@ export default function Workspace() {
                     <span className="counter">{annotations.length}</span>
                   </div>
                   <label className="search">
-                    <Search size={17} />
+                    <Search size={16} />
                     <input
                       aria-label="Search book annotations"
                       placeholder="Search within this book…"
@@ -1019,7 +1016,7 @@ export default function Workspace() {
                       annotations.map(annotationCard)
                     ) : (
                       <Empty
-                        title="A story still unfolding"
+                        title="No highlights or notes yet"
                         text="Highlights and notes from this book will appear here after import."
                       />
                     )}
@@ -1029,9 +1026,8 @@ export default function Workspace() {
                   <section className="panel">
                     <div className="section-heading">
                       <h2>My reflections</h2>
-                      <StickyNote size={17} />
                     </div>
-                    <p className="muted">Make the ideas your own.</p>
+                    <p className="muted">Make the ideas your own</p>
                     <label className="sr-only" htmlFor="reflection">
                       Your reflection
                     </label>
@@ -1057,7 +1053,7 @@ export default function Workspace() {
                           setReflection("");
                       }}
                     >
-                      <Plus size={15} />
+                      <Plus size={16} />
                       Save reflection
                     </button>
                     {data.reflections
@@ -1135,8 +1131,8 @@ export default function Workspace() {
                       </h1>
                       <p className="subtitle">
                         {data.books.length
-                          ? "Your books, notes, and recent reading in one place."
-                          : "Bring your books and highlights into a private, local library."}
+                          ? "Your books, notes, and recent reading in one place"
+                          : "Bring your books and highlights into a private, local library"}
                       </p>
                     </div>
                     {data.books.length > 0 && (
@@ -1144,7 +1140,7 @@ export default function Workspace() {
                         className="primary"
                         onClick={() => navigate("import")}
                       >
-                        <Usb size={17} /> Connect Kobo
+                        <Usb size={16} /> Connect Kobo
                       </button>
                     )}
                   </div>
@@ -1154,7 +1150,7 @@ export default function Workspace() {
                       aria-labelledby="getting-started-title"
                     >
                       <div className="setup-intro">
-                        <Usb size={28} aria-hidden="true" />
+                        <Usb size={20} aria-hidden="true" />
                         <h2 id="getting-started-title">
                           Start with your reader
                         </h2>
@@ -1199,7 +1195,7 @@ export default function Workspace() {
                         </li>
                       </ol>
                       <p className="setup-privacy">
-                        <ShieldCheck size={18} /> No account needed. Stored in
+                        <ShieldCheck size={16} /> No account needed. Stored in
                         this browser. Download backups in Settings.
                       </p>
                     </section>
@@ -1212,7 +1208,7 @@ export default function Workspace() {
                               <h2>On your reading table</h2>
                               <p>
                                 Recently read books, with in-progress books
-                                first.
+                                first
                               </p>
                             </div>
                             <button
@@ -1238,7 +1234,7 @@ export default function Workspace() {
                             </div>
                           ) : (
                             <Empty
-                              title="Your next chapter starts here"
+                              title="No books in your library yet"
                               text="Connect your Kobo to bring your books, highlights, and notes into one quiet space."
                               action="Import your first books"
                               onAction={() => navigate("import")}
@@ -1254,7 +1250,7 @@ export default function Workspace() {
                             className="text-link"
                             onClick={() => navigate("rhythm")}
                           >
-                            View reading details <ArrowUpRight size={17} />
+                            View reading details <ArrowUpRight size={14} />
                           </button>
                           <Activity entries={[...stats.activity]} />
                           <div className="activity-caption">
@@ -1278,7 +1274,6 @@ export default function Workspace() {
                           <div className="divider" />
                           <div className="section-heading">
                             <h3>Last connection</h3>
-                            <Usb size={16} />
                           </div>
                           {data.snapshots.length ? (
                             <>
@@ -1360,7 +1355,7 @@ export default function Workspace() {
                         <div className="section-heading">
                           <div>
                             <h2>Ideas to come back to</h2>
-                            <p>Your latest imported highlights and notes.</p>
+                            <p>Your latest imported highlights and notes</p>
                           </div>
                           <button
                             className="text-link"
@@ -1379,9 +1374,9 @@ export default function Workspace() {
                           </div>
                         ) : (
                           <div className="quiet-empty">
-                            <Quote size={23} />
+                            <Quote size={20} />
                             <p>
-                              Your highlights will find a home here.
+                              No highlights imported yet
                               <span>
                                 Import your annotations to start collecting
                                 connections.
@@ -1390,11 +1385,12 @@ export default function Workspace() {
                           </div>
                         )}
                       </section>
-                      {data.books.some(
-                        (b) =>
-                          b.readingHistory?.everFinished ||
-                          b.status === "finished",
-                      ) && (
+                      {data.books.length > 4 &&
+                        data.books.some(
+                          (b) =>
+                            b.readingHistory?.everFinished ||
+                            b.status === "finished",
+                        ) && (
                         <section>
                           <div className="section-heading">
                             <h2>Finished at least once</h2>
@@ -1429,7 +1425,7 @@ export default function Workspace() {
                       </h1>
                       <p className="subtitle">
                         Browse your books or find a title, author, or
-                        collection.
+                        collection
                       </p>
                     </div>
                     <button
@@ -1442,7 +1438,7 @@ export default function Workspace() {
                   </div>
                   <div className="toolbar">
                     <label className="search">
-                      <Search size={17} />
+                      <Search size={16} />
                       <input
                         aria-label="Search books"
                         placeholder="Search titles, authors, collections…"
@@ -1507,7 +1503,7 @@ export default function Workspace() {
                     </span>
                     {hasBookFilters && (
                       <button className="text-link" onClick={resetBookFilters}>
-                        <X size={15} /> Reset filters
+                        <X size={14} /> Reset filters
                       </button>
                     )}
                   </div>
@@ -1530,7 +1526,7 @@ export default function Workspace() {
                       title={
                         data.books.length
                           ? "No books match your search"
-                          : "A bookshelf of your own"
+                          : "No books in your library yet"
                       }
                       text={
                         data.books.length
@@ -1576,17 +1572,17 @@ export default function Workspace() {
                         Knowledge library<span className="green">.</span>
                       </h1>
                       <p className="subtitle">
-                        From a passing thought to a lasting connection.
+                        From a passing thought to a lasting connection
                       </p>
                     </div>
                     <span className="count-badge">
-                      <Lightbulb size={17} />
+                      <Lightbulb size={16} />
                       {data.annotations.length} collected ideas
                     </span>
                   </div>
                   <div className="toolbar">
                     <label className="search">
-                      <Search size={17} />
+                      <Search size={16} />
                       <input
                         aria-label="Search knowledge"
                         placeholder="Search highlights, notes, books, and authors…"
@@ -1600,7 +1596,7 @@ export default function Workspace() {
                       }
                       onClick={() => setFavorites(!favorites)}
                     >
-                      <Heart size={15} />
+                      <Heart size={16} />
                       Favorites
                     </button>
                     <select
@@ -1644,7 +1640,7 @@ export default function Workspace() {
                     </>
                   ) : (
                     <Empty
-                      title="Make room for a good idea"
+                      title="No matching highlights or notes"
                       text={
                         data.annotations.length
                           ? "No ideas match these filters."
@@ -1660,10 +1656,7 @@ export default function Workspace() {
                   )}
                   <section className="panel connections">
                     <div className="section-heading">
-                      <h2>
-                        <LinkIcon size={18} />
-                        Connections across books
-                      </h2>
+                      <h2>Connections across books</h2>
                     </div>
                     <p className="muted">
                       Shared topics create a path between your books. Add the
@@ -1694,7 +1687,7 @@ export default function Workspace() {
                               onClick={() => openBook(id)}
                             >
                               {data.books.find((b) => b.id === id)?.title}
-                              <ArrowUpRight size={12} />
+                              <ArrowUpRight size={14} />
                             </button>
                           ))}
                         </div>
@@ -1728,7 +1721,7 @@ export default function Workspace() {
                                   data.books.find((b) => b.id === r.bookId)
                                     ?.title
                                 }
-                                <ArrowUpRight size={13} />
+                                <ArrowUpRight size={14} />
                               </button>
                             </article>
                           ))}
@@ -1772,7 +1765,7 @@ export default function Workspace() {
                               disabled={disabled || !device.trim()}
                               onClick={pickFolder}
                             >
-                              <Usb size={17} />
+                              <Usb size={16} />
                               Select Kobo folder
                             </button>
                             <button
@@ -1965,7 +1958,7 @@ export default function Workspace() {
                                 .slice(0, 8)
                                 .map((b) => (
                                   <div key={b.id}>
-                                    <BookOpen size={15} />
+                                    <BookOpen size={14} />
                                     <span>
                                       {b.title}
                                       <small>{b.author}</small>
@@ -1991,7 +1984,7 @@ export default function Workspace() {
                         .map((s) => (
                           <div className="history-row" key={s.id}>
                             <span className="history-icon">
-                              <Check size={17} />
+                              <Check size={16} />
                             </span>
                             <div>
                               <strong>{s.deviceId}</strong>
@@ -2015,7 +2008,7 @@ export default function Workspace() {
                         ))
                     ) : (
                       <p className="muted">
-                        Your first connection is the start of something good.
+                        No imports recorded yet.
                       </p>
                     )}
                   </details>
@@ -2029,7 +2022,7 @@ export default function Workspace() {
                         Settings<span className="green">.</span>
                       </h1>
                       <p className="subtitle">
-                        Your library. Your device. Your choices.
+                        Your library, your device, your choices
                       </p>
                     </div>
                   </div>
@@ -2037,7 +2030,7 @@ export default function Workspace() {
                     <section className="panel">
                       <h2>Appearance</h2>
                       <p className="muted">
-                        A comfortable space, day or night.
+                        A comfortable space, day or night
                       </p>
                       <div className="setting-row">
                         <span>
@@ -2120,7 +2113,7 @@ export default function Workspace() {
                         </button>
                       </div>
                       <div className="storage-warning">
-                        <AlertCircle size={17} />
+                        <AlertCircle size={16} />
                         <p>
                           Clearing browser data can erase this library. Back up
                           regularly. Restoring replaces the current library
@@ -2155,16 +2148,16 @@ export default function Workspace() {
                       <h2>Privacy, by design</h2>
                       <div className="privacy-list">
                         <p>
-                          <ShieldCheck size={17} />
+                          <ShieldCheck size={16} />
                           No accounts, analytics, or annotation uploads.
                         </p>
                         <p>
-                          <BookOpen size={17} />
+                          <BookOpen size={16} />
                           Covers use local files first, with optional Open
                           Library lookup.
                         </p>
                         <p>
-                          <Usb size={17} />
+                          <Usb size={16} />
                           Your Kobo filesystem is never modified.
                         </p>
                       </div>
@@ -2216,7 +2209,7 @@ export default function Workspace() {
       )}
       {tagEdit && (
         <Modal label="topic-title" onClose={() => setTagEdit(null)}>
-          <h2 id="topic-title">Give this idea a home</h2>
+          <h2 id="topic-title">Edit topics</h2>
           <p className="muted">
             Separate topics with commas. Shared topics connect ideas across
             books.
@@ -2251,7 +2244,7 @@ export default function Workspace() {
                 setTagEdit(null);
               }}
             >
-              <Tag size={15} />
+              <Tag size={16} />
               Save topics
             </button>
             <button className="secondary" onClick={() => setTagEdit(null)}>

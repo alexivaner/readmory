@@ -1,0 +1,9 @@
+I’m Ivan. I built Readmory to come back to the books and ideas I keep.
+Connect your Kobo by USB and enable its storage connection. The app guides you to choose the Kobo folder or source files, review the preview, and save. This demonstration uses synthetic files. Then let’s browse my current library.
+Now here’s my cleaned current library. I can browse the shelf and see each book’s cover and progress. Let’s find Taipei Story. When I open it, the reader records stay visible. Below them are the book’s highlights and notes. I can scroll through the whole collection and return to the passages I want to remember.
+I can narrow the statistics to a year and month. The result changes, and estimated time stays labeled.
+For a closer look, I’ll pick a reading day and expand its sessions. Now I can see the times behind it.
+The knowledge library brings highlights from my books into one collection. I can scroll through the ideas I’ve kept, with each passage linked to its book. And when I remember a phrase, I can search for it and find the passage again.
+My own words have a separate view. I can expand the original passage to see what prompted a note.
+The library stays in this browser, without an account. Cover lookup is optional. I can download a backup to keep a portable copy.
+Readmory is open source and in public beta. Try it, and share your feedback.

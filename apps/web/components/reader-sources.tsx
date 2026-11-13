@@ -39,7 +39,7 @@ export default function ReaderSources({
         </span>
       </div>
       <p className="source-explainer">
-        Your shelf shows the latest recorded progress.
+        Your shelf shows the latest recorded progress
       </p>
       <div className="reader-source-grid">
         {members.map((b) => {
@@ -95,7 +95,7 @@ export default function ReaderSources({
       </div>
       <details className="book-match-settings">
         <summary>
-          <Link size={15} />
+          <Link size={16} />
           Manage book matches
         </summary>
         <p>
@@ -129,7 +129,7 @@ export default function ReaderSources({
               setTarget("");
             }}
           >
-            <Link size={15} />
+            <Link size={16} />
             Combine selected book
           </button>
         </div>

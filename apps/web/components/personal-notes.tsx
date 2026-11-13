@@ -57,9 +57,8 @@ export default function PersonalNotes({
           <h1>
             Personal notes<span className="green">.</span>
           </h1>
-          <p className="subtitle">Your own words, kept together.</p>
+          <p className="subtitle">Your own words, kept together</p>
         </div>
-        <StickyNote size={28} />
       </div>
       <div className="view-switch" aria-label="Note type">
         <button
@@ -83,7 +82,7 @@ export default function PersonalNotes({
       </div>
       <div className="toolbar">
         <label className="search">
-          <Search size={20} />
+          <Search size={16} />
           <input
             aria-label="Search personal notes"
             placeholder="Search your words, books, or authors…"
@@ -132,7 +131,7 @@ export default function PersonalNotes({
                 <article className="annotation note-card" key={a.id}>
                   <div className="note-card-meta">
                     <span>
-                      <StickyNote size={17} />
+                      <StickyNote size={16} />
                       {names[a.source]}
                       {a.sourceDeleted ? " · Archived" : ""}
                     </span>
@@ -159,7 +158,7 @@ export default function PersonalNotes({
                     className="text-link note-book-link"
                     onClick={() => onOpenBook(a.bookId)}
                   >
-                    <BookOpen size={17} />
+                    <BookOpen size={16} />
                     {books.get(a.bookId)?.title || "Open book"}
                     <ArrowUpRight size={16} />
                   </button>
@@ -169,7 +168,7 @@ export default function PersonalNotes({
                 <article className="annotation note-card" key={r.id}>
                   <div className="note-card-meta">
                     <span>
-                      <StickyNote size={17} />
+                      <StickyNote size={16} />
                       Your reflection
                     </span>
                     <time>{new Date(r.created).toLocaleDateString()}</time>
@@ -179,7 +178,7 @@ export default function PersonalNotes({
                     className="text-link note-book-link"
                     onClick={() => onOpenBook(r.bookId)}
                   >
-                    <BookOpen size={17} />
+                    <BookOpen size={16} />
                     {books.get(r.bookId)?.title || "Open book"}
                     <ArrowUpRight size={16} />
                   </button>
@@ -188,13 +187,15 @@ export default function PersonalNotes({
         </div>
       ) : (
         <div className="empty">
-          <StickyNote size={30} />
+          <div className="empty-icon">
+            <StickyNote size={24} />
+          </div>
           <h2>
             {query
               ? "No matching notes"
               : mode === "reader"
                 ? "Your notes will appear here"
-                : "A place for your own thoughts"}
+                : "No reflections saved yet"}
           </h2>
           <p>
             {mode === "reader"

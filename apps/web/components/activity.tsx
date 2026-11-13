@@ -41,12 +41,12 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
         ].map((token) => style.getPropertyValue(token).trim()),
         dateOnly = style.getPropertyValue("--activity-date").trim();
       chart.setOption({
-        textStyle: { fontSize: 14, fontFamily: font },
+        textStyle: { fontSize: 12, fontFamily: font },
         animation: false,
         tooltip: {
           backgroundColor: paper,
           borderColor: muted,
-          textStyle: { color: ink, fontSize: 14 },
+          textStyle: { color: ink, fontSize: 13 },
           formatter: (p: unknown) => {
             const d = (p as { data?: { value?: [string, number] } }).data
               ?.value;
@@ -64,11 +64,11 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
           },
         },
         calendar: {
-          top: 26,
-          left: 32,
-          right: 12,
-          bottom: 12,
-          cellSize: ["auto", 15],
+          top: 24,
+          left: 28,
+          right: 8,
+          bottom: 8,
+          cellSize: ["auto", 16],
           range: [dayKey(start.toISOString()), dayKey(end.toISOString())],
           splitLine: { show: false },
           itemStyle: {
@@ -83,7 +83,7 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
             fontSize: 12,
             nameMap: ["S", "M", "T", "W", "T", "F", "S"],
           },
-          monthLabel: { color: muted, fontSize: 13 },
+          monthLabel: { color: muted, fontSize: 12 },
         },
         series: [
           {
@@ -116,7 +116,7 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
       role="img"
       aria-label={`Recorded reading activity across ${entries.length} days`}
       ref={ref}
-      style={{ height: 185, width: "100%" }}
+      style={{ height: 184, width: "100%" }}
     />
   );
 }

@@ -1,0 +1,10 @@
+# Real-library media are local review assets. Stage only after owner review.
+/screenshots/
+/clips/
+/portrait/
+/slides/
+/readmory-promo.pptx
+/asset-inventory.json
+/preview-contact-sheet.jpg
+/*.pptx
+/google-slides-autoplay.md

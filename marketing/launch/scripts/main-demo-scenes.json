@@ -1,0 +1,92 @@
+[
+  {
+    "id": "hook",
+    "start": 0,
+    "end": 7,
+    "title": "What stays after the last page?",
+    "subtitle": "Readmory · Your reading, remembered.",
+    "voice": "I’m Ivan. I built Readmory to come back to the books and ideas I keep.",
+    "source": "Editorial introduction",
+    "clip": null
+  },
+  {
+    "id": "10-import-synthetic",
+    "start": 7,
+    "end": 27,
+    "title": "Your Kobo library, in a few steps",
+    "subtitle": "Connect by USB. Choose files. Review and save.",
+    "voice": "Connect your Kobo by USB and enable its storage connection. The app guides you to choose the Kobo folder or source files, review the preview, and save. This demonstration uses synthetic files. Then let’s browse my current library.",
+    "source": "Synthetic saved-file fixture in the real import workflow",
+    "clip": "10-import-synthetic-landscape.mp4"
+  },
+  {
+    "id": "02-library",
+    "start": 27,
+    "end": 55,
+    "title": "Your library, and the ideas inside",
+    "subtitle": "Browse the shelf, then scroll through a book’s annotations.",
+    "voice": "Now here’s my cleaned current library. I can browse the shelf and see each book’s cover and progress. Let’s find Taipei Story. When I open it, the reader records stay visible. Below them are the book’s highlights and notes. I can scroll through the whole collection and return to the passages I want to remember.",
+    "source": "Real cleaned owner library",
+    "clip": "02-library-landscape.mp4"
+  },
+  {
+    "id": "03-statistics",
+    "start": 55,
+    "end": 64,
+    "title": "A closer look at your reading",
+    "subtitle": "Choose a year and month. Estimates stay labeled.",
+    "voice": "I can narrow the statistics to a year and month. The result changes, and estimated time stays labeled.",
+    "source": "Real cleaned owner library",
+    "clip": "03-statistics-landscape.mp4"
+  },
+  {
+    "id": "04-rhythm",
+    "start": 64,
+    "end": 73,
+    "title": "The sessions behind a reading day",
+    "subtitle": "Choose an active date, then reveal its session times.",
+    "voice": "For a closer look, I’ll pick a reading day and expand its sessions. Now I can see the times behind it.",
+    "source": "Real cleaned owner library",
+    "clip": "04-rhythm-landscape.mp4"
+  },
+  {
+    "id": "05-knowledge",
+    "start": 73,
+    "end": 94,
+    "title": "Browse the ideas you kept",
+    "subtitle": "Scroll through highlights, then search for a remembered phrase.",
+    "voice": "The knowledge library brings highlights from my books into one collection. I can scroll through the ideas I’ve kept, with each passage linked to its book. And when I remember a phrase, I can search for it and find the passage again.",
+    "source": "Real cleaned owner library",
+    "clip": "05-knowledge-landscape.mp4"
+  },
+  {
+    "id": "06-notes",
+    "start": 94,
+    "end": 103,
+    "title": "Your words, with their context",
+    "subtitle": "Expand the passage that prompted a personal note.",
+    "voice": "My own words have a separate view. I can expand the original passage to see what prompted a note.",
+    "source": "One selected real personal note from Digital Minimalism",
+    "clip": "06-notes-landscape.mp4"
+  },
+  {
+    "id": "08-privacy-backup",
+    "start": 103,
+    "end": 113,
+    "title": "A private workspace, a portable copy",
+    "subtitle": "No account. Optional cover lookup. Download a backup.",
+    "voice": "The library stays in this browser, without an account. Cover lookup is optional. I can download a backup to keep a portable copy.",
+    "source": "Real cleaned owner library; downloaded backup excluded",
+    "clip": "08-privacy-backup-landscape.mp4"
+  },
+  {
+    "id": "cta",
+    "start": 113,
+    "end": 120,
+    "title": "Readmory",
+    "subtitle": "Your reading, remembered.",
+    "voice": "Readmory is open source and in public beta. Try it, and share your feedback.",
+    "source": "README.md; LICENSE",
+    "clip": null
+  }
+]

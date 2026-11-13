@@ -134,7 +134,7 @@ export default function ReadingRhythm({
             aria-label="Previous month"
             onClick={() => shift(-1)}
           >
-            <ChevronLeft />
+            <ChevronLeft size={16} />
           </button>
           <label>
             Month
@@ -168,7 +168,7 @@ export default function ReadingRhythm({
             aria-label="Next month"
             onClick={() => shift(1)}
           >
-            <ChevronRight />
+            <ChevronRight size={16} />
           </button>
         </div>
         <label>
@@ -307,7 +307,7 @@ export default function ReadingRhythm({
                       className="text-link"
                       onClick={() => onOpenBook(item.ids[0])}
                     >
-                      <BookOpen size={17} />
+                      <BookOpen size={16} />
                       {item.title}
                       <ArrowUpRight size={16} />
                     </button>

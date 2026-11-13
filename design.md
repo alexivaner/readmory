@@ -46,3 +46,11 @@ Reduced motion disables transitions and animation. No decorative entrance effect
 Routes, navigation labels, field names, action handlers, backup behavior, source
 identifiers and browser storage keys are product contracts, not design variables.
 Keep consent, privacy and donation disclaimers verbatim.
+
+## Welcome preview
+
+Show an actual capture of the app populated only from the synthetic fixture.
+Label the example visibly. Do not compose imitation app cards, invent reading
+percentages, or present sample annotations as endorsements. Regenerate the
+preview when the reading shelf changes. Shared panels and controls use 4px
+corners; book covers retain 2px corners.

@@ -6,7 +6,6 @@ import {
   Share2,
   X,
   BookOpen,
-  ChartColumn,
   Loader2,
 } from "lucide-react";
 import { type Library, type Book, isReadingBook } from "../../../packages/core";
@@ -33,7 +32,6 @@ function Thumbnail({ book }: { book: Book }) {
         />
       ) : (
         <span>
-          <BookOpen size={21} />
           <strong>{book.title}</strong>
         </span>
       )}
@@ -168,9 +166,7 @@ export default function ReadingStatistics({
           <h1>
             Reading statistics<span className="green">.</span>
           </h1>
-          <p className="subtitle">
-            Your reading life, in a little more detail.
-          </p>
+          <p className="subtitle">Your reading life, in a little more detail</p>
         </div>
         <button
           className="primary"
@@ -182,7 +178,7 @@ export default function ReadingStatistics({
             setPreview(true);
           }}
         >
-          <Share2 size={19} />
+          <Share2 size={16} />
           Create share card
         </button>
       </div>
@@ -250,7 +246,7 @@ export default function ReadingStatistics({
         </label>
         <button className="text-link" onClick={onRhythm}>
           Explore daily activity
-          <ArrowUpRight size={17} />
+          <ArrowUpRight size={16} />
         </button>
       </div>
       <div className="section-heading">
@@ -319,7 +315,6 @@ export default function ReadingStatistics({
       >
         <div className="section-heading">
           <h2>{year} by month</h2>
-          <ChartColumn size={23} />
         </div>
         <div className="month-bars">
           {months.map((m, i) => (
@@ -383,7 +378,7 @@ export default function ReadingStatistics({
                 <span>
                   {y.activeDays} active days · {y.books} books
                 </span>
-                <ArrowUpRight size={17} />
+                <ArrowUpRight size={16} />
               </button>
             ))}
           </div>
@@ -416,9 +411,7 @@ export default function ReadingStatistics({
                 key={row.book.id}
                 onClick={() => onOpenBook(row.book.id)}
               >
-                <span className="book-rank">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                <span className="book-rank">{i + 1}</span>
                 <Thumbnail book={row.book} />
                 <span className="statistics-book-title">
                   <strong>{row.book.title}</strong>
@@ -450,13 +443,15 @@ export default function ReadingStatistics({
                     </span>
                   )}
                 </span>
-                <ArrowUpRight size={18} />
+                <ArrowUpRight size={16} />
               </button>
             ))}
           </div>
         ) : (
           <div className="empty">
-            <BookOpen size={28} />
+            <div className="empty-icon">
+              <BookOpen size={24} />
+            </div>
             <h3>No recorded reading for this period</h3>
             <p>Try another year or import more reading history.</p>
           </div>
@@ -473,7 +468,7 @@ export default function ReadingStatistics({
       {ongoing.length > 0 && (
         <section className="panel statistics-continue">
           <h2>Continue reading</h2>
-          <p className="muted">Your current books, across all dates.</p>
+          <p className="muted">Your current books, across all dates</p>
           <div>
             {ongoing.map((b) => (
               <button
@@ -481,14 +476,14 @@ export default function ReadingStatistics({
                 className="text-link"
                 onClick={() => onOpenBook(b.id)}
               >
-                <BookOpen size={18} />
+                <BookOpen size={16} />
                 {b.title}
                 <span>
                   {b.progress === null
                     ? "In progress"
                     : `${Math.round(b.progress)}%`}
                 </span>
-                <ArrowUpRight size={17} />
+                <ArrowUpRight size={16} />
               </button>
             ))}
           </div>
@@ -503,7 +498,7 @@ export default function ReadingStatistics({
               aria-label="Close share card"
               onClick={() => setPreview(false)}
             >
-              <X />
+              <X size={16} />
             </button>
           </div>
           <p className="muted">
@@ -524,7 +519,7 @@ export default function ReadingStatistics({
           </p>
           {busy ? (
             <p role="status">
-              <Loader2 className="spin" size={19} /> Creating your card…
+              <Loader2 className="spin" size={16} /> Creating your card…
             </p>
           ) : (
             url && (
@@ -542,7 +537,7 @@ export default function ReadingStatistics({
               disabled={busy || !blob}
               onClick={download}
             >
-              <Download size={18} />
+              <Download size={16} />
               Download PNG
             </button>
             <button
@@ -550,7 +545,7 @@ export default function ReadingStatistics({
               disabled={busy || !blob}
               onClick={share}
             >
-              <Share2 size={18} />
+              <Share2 size={16} />
               Share image
             </button>
           </div>

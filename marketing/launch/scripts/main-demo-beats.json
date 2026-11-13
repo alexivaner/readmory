@@ -1,0 +1,143 @@
+[
+  {
+    "id": "10-import-synthetic",
+    "duration": 20,
+    "source": "repository synthetic saved-file fixture",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Explain the real USB connection instructions"
+      },
+      {
+        "at": 6.1,
+        "action": "Continue from connection guidance to file selection"
+      },
+      {
+        "at": 10,
+        "action": "Review actual fixture counts before saving"
+      },
+      {
+        "at": 14,
+        "action": "Import completes and the shelf appears"
+      }
+    ]
+  },
+  {
+    "id": "02-library",
+    "duration": 28,
+    "source": "real cleaned owner library",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Browse the current cleaned shelf"
+      },
+      {
+        "at": 7.4,
+        "action": "Return to the shelf search"
+      },
+      {
+        "at": 12.8,
+        "action": "Open Taipei Story and read its preserved reader records"
+      },
+      {
+        "at": 14.8,
+        "action": "Scroll through every Taipei Story annotation"
+      },
+      {
+        "at": 25.2,
+        "action": "Hold the final annotation"
+      }
+    ]
+  },
+  {
+    "id": "05-knowledge",
+    "duration": 21,
+    "source": "real cleaned owner library",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Read the complete knowledge collection"
+      },
+      {
+        "at": 14.5,
+        "action": "Return to search after browsing several screens"
+      },
+      {
+        "at": 18.4,
+        "action": "A remembered phrase finds the passage"
+      }
+    ]
+  },
+  {
+    "id": "03-statistics",
+    "duration": 9,
+    "source": "real cleaned owner library",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Read all-time totals"
+      },
+      {
+        "at": 2,
+        "action": "Filter to the year"
+      },
+      {
+        "at": 4.3,
+        "action": "Filter to October and read the labeled result"
+      }
+    ]
+  },
+  {
+    "id": "04-rhythm",
+    "duration": 9,
+    "source": "real cleaned owner library",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Read calendar with latest day selected"
+      },
+      {
+        "at": 2.1,
+        "action": "Select a different active day"
+      },
+      {
+        "at": 4,
+        "action": "Reveal the actual session times and evidence labels"
+      }
+    ]
+  },
+  {
+    "id": "06-notes",
+    "duration": 9,
+    "source": "real cleaned owner library",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Read the selected personal note"
+      },
+      {
+        "at": 2.3,
+        "action": "Expand the passage that prompted the note"
+      }
+    ]
+  },
+  {
+    "id": "08-privacy-backup",
+    "duration": 10,
+    "source": "real cleaned owner library",
+    "beats": [
+      {
+        "at": 0,
+        "action": "Optional metadata lookup remains off"
+      },
+      {
+        "at": 2.7,
+        "action": "Read backup and privacy information"
+      },
+      {
+        "at": 4.9,
+        "action": "The real backup download succeeds"
+      }
+    ]
+  }
+]

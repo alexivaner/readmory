@@ -1,0 +1,27 @@
+1
+00:00:00,000 --> 00:00:03,000
+Your Kobo remembers more than you think.
+
+2
+00:00:03,000 --> 00:00:07,000
+I built Readmory to bring my reading together.
+
+3
+00:00:07,000 --> 00:00:11,000
+My books. The time I spend with them.
+
+4
+00:00:11,000 --> 00:00:15,000
+A calendar of my reading days.
+
+5
+00:00:15,000 --> 00:00:20,000
+And highlights I can actually find again.
+
+6
+00:00:20,000 --> 00:00:24,000
+Local-first, with no account. Keep a backup.
+
+7
+00:00:24,000 --> 00:00:28,000
+Readmory. Your reading, remembered. Try the public beta.

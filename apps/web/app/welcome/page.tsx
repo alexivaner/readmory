@@ -1,4 +1,3 @@
-import { BookOpen, ShieldCheck, Quote, Library } from "lucide-react";
 import { Brand, BrandArtwork } from "../../components/brand";
 import { appPath } from "../../lib/paths";
 import { SUPPORT_URL, GITHUB_URL } from "../../lib/links";
@@ -18,11 +17,11 @@ export default function Welcome() {
           <h1>
             Your reading,
             <br />
-            remembered.
+            remembered<span className="green">.</span>
           </h1>
           <p>
-            Keep your Kobo books, highlights, and reading history together.
-            Private, in your browser.
+            Keep your Kobo, KOReader, and Kobalt books, highlights, and reading
+            history together in one private browser workspace.
           </p>
           <div className="actions">
             <a className="primary" href={appPath("/")}>
@@ -36,30 +35,25 @@ export default function Welcome() {
       <section className="welcome-features">
         {[
           [
-            BookOpen,
             "One reading home",
-            "Import Kobo, KOReader and Kobalt. Keep books together with every reader’s progress preserved.",
+            "Import Kobo, KOReader, and Kobalt. Keep books together with every reader’s progress preserved.",
           ],
           [
-            Quote,
             "Keep the good parts",
-            "Explore highlights, personal notes, topics and reflections in your knowledge library.",
+            "Explore highlights, personal notes, topics, and reflections in your knowledge library.",
           ],
           [
-            Library,
             "See your reading life",
-            "Browse your bookshelf, recorded activity, completion history and reading statistics.",
+            "Browse your bookshelf, recorded activity, completion history, and reading statistics.",
           ],
           [
-            ShieldCheck,
             "Private by design",
             "Files are parsed in your browser. Your library stays on your device, with portable backups.",
           ],
-        ].map(([Icon, title, text]) => (
-          <article className="panel" key={String(title)}>
-            {typeof Icon !== "string" && <Icon size={24} />}
-            <h2>{String(title)}</h2>
-            <p>{String(text)}</p>
+        ].map(([title, text]) => (
+          <article className="panel" key={title}>
+            <h2>{title}</h2>
+            <p>{text}</p>
           </article>
         ))}
       </section>
@@ -71,19 +65,19 @@ export default function Welcome() {
         <ol>
           {[
             [
-              "01",
+              "1",
               "Connect your Kobo",
               "Plug it into your computer with USB and tap Connect on its screen.",
             ],
             [
-              "02",
+              "2",
               "Choose your reading data",
-              "Our guide helps you find the Kobo folder, or the files for your reader.",
+              "The import guide shows where to find the Kobo folder or reader files.",
             ],
             [
-              "03",
+              "3",
               "Review and save",
-              "Review and save, then disconnect. Your library stays in this browser.",
+              "Check the preview before saving, then disconnect. Your library stays in this browser.",
             ],
           ].map(([n, title, text]) => (
             <li key={n}>

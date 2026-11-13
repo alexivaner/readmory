@@ -21,7 +21,7 @@ export default function ImportProgress({ task }: { task: ImportTask }) {
   return (
     <section className="import-processing" aria-label="Preparing import">
       <div className="processing-heading">
-        <Loader2 size={23} className="spin" aria-hidden="true" />
+        <Loader2 size={18} className="spin" aria-hidden="true" />
         <h2 ref={title} tabIndex={-1}>
           Preparing your library
         </h2>

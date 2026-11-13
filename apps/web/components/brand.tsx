@@ -33,16 +33,16 @@ export function Brand({ compact = false }: { compact?: boolean }) {
 }
 export function BrandArtwork({ className = "" }: { className?: string }) {
   return (
-    <div className={`readmory-artwork ${className}`} aria-hidden="true">
-      <div className="readmory-art-halo" />
-      <div className="readmory-app-icon">
+    <div className={`readmory-artwork ${className}`}>
+      <figure>
         <img
-          src={appPath("/brand/readmory-r-icon.png")}
-          alt=""
-          width="1254"
-          height="1254"
+          src={appPath("/brand/library-example.png")}
+          alt="Readmory’s reading shelf with two sample books and their imported progress"
+          width="429"
+          height="419"
         />
-      </div>
+        <figcaption>The reading shelf, using synthetic example data.</figcaption>
+      </figure>
     </div>
   );
 }

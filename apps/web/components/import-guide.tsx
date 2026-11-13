@@ -47,13 +47,7 @@ export default function ImportGuide({
             aria-current={i === active ? "step" : undefined}
             className={i < active ? "complete" : i === active ? "current" : ""}
           >
-            <span>
-              {i < active ? (
-                <Check size={15} />
-              ) : (
-                String(i + 1).padStart(2, "0")
-              )}
-            </span>
+            <span>{i < active ? <Check size={14} /> : String(i + 1)}</span>
             {label}
           </li>
         ))}
@@ -63,7 +57,7 @@ export default function ImportGuide({
       ) : active === 0 ? (
         <>
           <h2 ref={heading} tabIndex={-1}>
-            Connect your Kobo.
+            Connect your Kobo<span className="green">.</span>
           </h2>
           <ol className="connection-checklist">
             <li>
@@ -111,11 +105,11 @@ export default function ImportGuide({
         <>
           <div className="guide-step-title">
             <span className="guide-icon">
-              <FolderOpen size={25} />
+              <FolderOpen size={18} />
             </span>
             <div>
               <h2 ref={heading} tabIndex={-1}>
-                Choose your files.
+                Choose your files<span className="green">.</span>
               </h2>
             </div>
           </div>
@@ -181,14 +175,14 @@ export default function ImportGuide({
             <p>You can select files from more than one reader.</p>
           </details>
           <button className="text-link guide-back" onClick={() => setStep(0)}>
-            <ArrowLeft size={14} />
+            <ArrowLeft size={16} />
             Connection instructions
           </button>
         </>
       ) : null}
       <div className="guide-privacy" hidden={hasPreview || !!task}>
         <ShieldCheck size={16} />
-        <span>Your files stay in this browser.</span>
+        <span>Your files stay in this browser</span>
       </div>
     </div>
   );

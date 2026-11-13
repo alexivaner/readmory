@@ -1,6 +1,22 @@
 [
   {
     "mode": "redesign",
+    "depth": "polish",
+    "scope": "app",
+    "theme": "Readmory brand",
+    "entry": "apps/web/app/globals.css",
+    "signature": "Actual reading shelf with clearly labeled synthetic data",
+    "prompt": "Audit Antigravity redesign and remove remaining generic visual details",
+    "waived": [],
+    "changes": [
+      "tokenize remaining colors",
+      "unify corner sizes",
+      "replace illustrative welcome preview with actual synthetic shelf capture",
+      "use body face for count labels"
+    ]
+  },
+  {
+    "mode": "redesign",
     "depth": "full",
     "scope": "app",
     "shape": "app screen",
