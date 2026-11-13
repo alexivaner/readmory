@@ -12,6 +12,10 @@ all routes, storage identifiers, source labels, backup behavior and handlers.
 Centralized nine stray color usages, aligned control/panel corner tokens with
 design.md, removed positive tracking on labels, used the body face for count
 badges, and replaced opacity-only primary hover styling with a theme-aware fill.
+The paper fallback cover now uses theme ink so its title stays readable in dark
+mode; the previous fixed forest foreground failed contrast on the dark paper.
+Measured fallback contrast is 14.49:1 light and 13.51:1 dark. All required
+checks and five affected browser regressions passed after this correction.
 
 The welcome preview is now an actual app capture made in an isolated browser
 using only fixtures/generated/KoboReader.sqlite. Its caption identifies synthetic
@@ -24,7 +28,7 @@ Privacy, donation and consent disclosures retain their exact wording.
 
 - Baseline: 16 Floor flags, one Reflex flag.
 - Final static and rendered comparison: zero FAIL, zero REFLEX, zero WARN.
-- Nine recorded warning dismissals, one answered Finish finding. The unchanged
+- Eight recorded warning dismissals, one answered Finish finding. The unchanged
   donation disclaimer contains “unlock”; verbatim copy is recorded in the stamp.
 - Retained 18/18 links, 121/121 handlers and 9/9 headings. The removed sample
   date and illustrative image are recorded in the CSS stamp.
