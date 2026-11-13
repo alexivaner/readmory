@@ -592,7 +592,7 @@ export default function Workspace() {
         </div>
         {a.text &&
           a.kind !== "note" &&
-          (page === "knowledge" && !activeBook ? (
+          (page === "knowledge" || activeBook ? (
             <AnnotationPassage text={a.text} />
           ) : (
             <blockquote>{a.text}</blockquote>

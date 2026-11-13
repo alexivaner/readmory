@@ -49,6 +49,12 @@ test("long highlights expand independently while favorite and topic actions rema
   const entries = page
     .locator(".knowledge-grid .annotation")
     .filter({ has: page.locator(".passage-full") });
+  const columns = await page
+    .locator(".knowledge-grid")
+    .evaluate(
+      (el) => getComputedStyle(el).gridTemplateColumns.split(" ").length,
+    );
+  expect(columns).toBe(2);
   const first = entries.first();
   const second = entries.nth(1);
   await expect(first.locator(".passage-full blockquote")).toBeHidden();
@@ -84,4 +90,34 @@ test("long highlights expand independently while favorite and topic actions rema
   ).toBe(true);
   await first.locator("summary").click();
   await expect(first.locator(".passage-full blockquote")).toBeHidden();
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.getByRole("button", { name: "My library", exact: true }).click();
+  await page
+    .getByRole("heading", { name: "The Quiet Atlas", exact: true })
+    .click();
+  await page.setViewportSize({ width: 390, height: 844 });
+  const bookEntry = page
+    .locator(".annotation-list .annotation")
+    .filter({ has: page.locator(".passage-full") })
+    .first();
+  await expect(bookEntry).toBeVisible();
+  const surface = await bookEntry.evaluate((el) => {
+    const style = getComputedStyle(el);
+    return {
+      border: style.borderTopStyle,
+      width: style.borderTopWidth,
+      background: style.backgroundColor,
+    };
+  });
+  expect(surface.border).toBe("solid");
+  expect(surface.width).toBe("1px");
+  expect(surface.background).not.toBe("rgba(0, 0, 0, 0)");
+  await expect(bookEntry.locator(".passage-full blockquote")).toBeHidden();
+  await bookEntry.locator("summary").click();
+  await expect(bookEntry.locator(".passage-full blockquote")).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
 });

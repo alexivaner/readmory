@@ -57,11 +57,13 @@ corners; book covers retain 2px corners.
 
 ## Knowledge library
 
-Use a single column, capped at 1040px, so passages do not compete side by side.
+Use two columns on wide screens, capped at 1040px, and one below 1000px.
 Each entry has a paper surface, a fine border and 24px separation. This is a
 reading object, not an unbounded editorial grid. Keep text near 64 characters
 per line. Passages lead; source, book references, dates and topic actions use
 smaller sans type. Long highlights use a five-line preview with a native
 disclosure that reveals the complete original text, including without scripting.
 Search occupies its own row; filters sit below it. Preserve all favorite, topic,
-book and location actions. Do not apply collapsed previews to book detail pages.
+book and location actions. Apply the same bordered surfaces, spacing and long-
+highlight disclosures to the annotations inside each book. Keep book annotations
+in one column beside the reflection panel so the reading measure stays usable.

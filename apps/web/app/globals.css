@@ -1,6 +1,6 @@
 /* Hallmark · checked: 2026-11-13 · genre: editorial · shape: app screen
  * theme: Readmory brand · built: the project · redesign: full · copy: verbatim · v2.0.0 */
-/* Hallmark · signature: one passage at a time, bordered reading entries with expandable long highlights */
+/* Hallmark · signature: separated reading entries in Knowledge library and book details */
 /* Hallmark · finish-review: subagent · ship · desktop, mobile and dark captures */
 /* Hallmark · pre-emit critique: P4 H4 E4 S4 R4 V3 · weakest: V, replace the unboxed two-column feed with separated single-column reading entries */
 /* Hallmark · dismissed 25 · empty-state captions are short instructions, not long-form prose */
@@ -1189,41 +1189,41 @@ summary {
 }
 
 .knowledge-grid {
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-24);
 }
 
-.knowledge-grid > .annotation {
+:is(.knowledge-grid, .annotation-list) > .annotation {
   padding: var(--space-24) var(--space-28);
   border: 1px solid var(--line);
   border-radius: var(--radius-card);
   background: var(--paper);
 }
 
-.knowledge-grid .annotation-top {
+:is(.knowledge-grid, .annotation-list) .annotation-top {
   margin-bottom: var(--space-16);
 }
 
-.knowledge-grid .annotation blockquote {
+:is(.knowledge-grid, .annotation-list) .annotation blockquote {
   font-size: 20px;
   line-height: 1.65;
   max-width: 64ch;
 }
 
-.knowledge-grid .annotation-footer {
+:is(.knowledge-grid, .annotation-list) .annotation-footer {
   padding-top: var(--space-16);
   border-top: 1px solid var(--line);
   margin-top: var(--space-24);
   align-items: baseline;
 }
 
-.knowledge-grid .annotation-footer .text-link {
+:is(.knowledge-grid, .annotation-list) .annotation-footer .text-link {
   text-align: left;
   line-height: 1.5;
   min-width: 0;
 }
 
-.knowledge-grid .tag-row {
+:is(.knowledge-grid, .annotation-list) .tag-row {
   align-items: center;
   margin-top: var(--space-8);
 }
@@ -1262,11 +1262,11 @@ summary {
 }
 
 @media (max-width: 760px) {
-  .knowledge-grid > .annotation {
+  :is(.knowledge-grid, .annotation-list) > .annotation {
     padding: var(--space-20) var(--space-16);
   }
 
-  .knowledge-grid .annotation blockquote {
+  :is(.knowledge-grid, .annotation-list) .annotation blockquote {
     font-size: 18px;
   }
 }
@@ -1494,7 +1494,7 @@ summary {
 .annotation-list {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: var(--space-24);
   margin-top: var(--space-16);
 }
 

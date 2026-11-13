@@ -1,6 +1,21 @@
 [
   {
     "mode": "redesign",
+    "depth": "restyle",
+    "scope": "app",
+    "theme": "Readmory brand",
+    "entry": "apps/web/app/globals.css",
+    "prompt": "Keep two columns with clear separation and apply entry treatment inside each book",
+    "signature": "Shared separated annotation entries across library and book views",
+    "changes": [
+      "Two Knowledge library columns above 1000px",
+      "Shared paper surfaces, borders and spacing in book annotations",
+      "Native long-highlight disclosures also in book detail"
+    ],
+    "waived": []
+  },
+  {
+    "mode": "redesign",
     "depth": "full",
     "scope": "app",
     "shape": "app screen",

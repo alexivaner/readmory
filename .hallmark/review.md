@@ -86,3 +86,25 @@ Validation for this revision: typecheck, lint, unit tests (87 passed, one privat
 fixture skipped), root production build and /readmory production build passed.
 Root browser suite: 32 passed, two expected skips. Production-path regressions:
 seven passed, including SQLite/offline import and the new long-highlight case.
+
+## Two-column and book-detail follow-up
+
+User clarified that two columns are welcome when entries are clearly separated.
+Restored two desktop Knowledge library columns with existing bordered paper
+entries and 24px gaps. At 1000px and below they become a single column.
+Book-detail annotations now share the same paper surfaces, borders, spacing,
+metadata hierarchy and native long-highlight disclosure. The book annotation
+column remains beside the existing reflection panel, with one readable entry
+per row. No content, actions, storage identifiers or routes were removed.
+
+Synthetic desktop/mobile captures cover both views, including dark book details.
+Hallmark rendered sweep: zero FAIL, zero REFLEX, zero WARN.
+
+The first extended browser test tried to use desktop navigation while its
+viewport was still mobile and timed out. Corrected the test to restore the
+desktop viewport before choosing My library, then switch back to mobile for
+book-detail checks. The corrected targeted regression passed.
+
+Final validation: typecheck, lint, 87 unit tests, root and /readmory builds,
+32 applicable root browser tests and seven production-path regressions passed.
+Two conditional browser tests and one private-fixture unit case remain skipped.
