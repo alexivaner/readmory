@@ -88,9 +88,7 @@ export function EnrichedMetadata({ book }: { book: Book }) {
       <h2>Book metadata</h2>
       {r && (
         <>
-          <span className="eyebrow">
-            FROM YOUR {r.source.toUpperCase()} RECORD
-          </span>
+          <span className="record-caption">From your {r.source} record</span>
           <dl className="database-info">
             {r.publisher && (
               <div>
@@ -131,7 +129,9 @@ export function EnrichedMetadata({ book }: { book: Book }) {
       )}
       {m ? (
         <>
-          <span className="eyebrow">OPEN LIBRARY · WORK-LEVEL METADATA</span>
+          <span className="record-caption">
+            Open Library work-level metadata
+          </span>
           <dl className="database-info">
             <div>
               <dt>Catalog title</dt>

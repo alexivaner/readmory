@@ -344,13 +344,13 @@ export default function ReadingRhythm({
                       </details>
                     ) : (
                       <p className="muted">
-                        Duration unavailable ·{" "}
+                        Duration unavailable;{" "}
                         {
                           item.activity.filter(
                             (s) => s.evidence === "annotation",
                           ).length
                         }{" "}
-                        annotation dates ·{" "}
+                        annotation dates,{" "}
                         {
                           item.activity.filter(
                             (s) => s.evidence === "reader-event",

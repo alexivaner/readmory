@@ -26,7 +26,15 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <noscript>
+          <p className="noscript-message">
+            Readmory needs JavaScript to open your local library. Your files are
+            processed in this browser.
+          </p>
+        </noscript>
+        {children}
+      </body>
     </html>
   );
 }

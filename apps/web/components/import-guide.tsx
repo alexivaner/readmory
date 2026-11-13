@@ -1,12 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, type ReactNode } from "react";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  FolderOpen,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowLeft, Check, FolderOpen, ShieldCheck } from "lucide-react";
 import ImportProgress, { type ImportTask } from "./import-progress";
 const files = {
   kobo: {
@@ -98,17 +92,18 @@ export default function ImportGuide({
             </li>
           </ol>
           <button className="primary guide-next" onClick={() => setStep(1)}>
-            My Kobo is connected <ArrowRight size={16} />
+            My Kobo is connected
           </button>
           <details className="guide-help">
             <summary>My Kobo doesn’t appear</summary>
             <p>
-              Unlock your Kobo, reconnect the cable, and tap Connect on its
-              screen. Try another USB port or a data-capable cable. You can also
-              continue with saved source files from an earlier snapshot.
+              Dismiss your Kobo’s lock screen, reconnect the cable, and tap
+              Connect on its screen. Try another USB port or a data-capable
+              cable. You can also continue with saved source files from an
+              earlier snapshot.
             </p>
             <button className="text-link" onClick={() => setStep(1)}>
-              I have source files already <ArrowRight size={14} />
+              I have source files already
             </button>
           </details>
         </>

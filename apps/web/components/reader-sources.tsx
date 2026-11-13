@@ -32,7 +32,6 @@ export default function ReaderSources({
     <section className="panel reader-sources" aria-label="Reader sources">
       <div className="source-heading">
         <div>
-          <span className="eyebrow">ONE BOOK, EVERY READER</span>
           <h2>Reader sources</h2>
         </div>
         <span className="pill">

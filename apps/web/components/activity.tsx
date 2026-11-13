@@ -31,9 +31,17 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
         muted = style.getPropertyValue("--muted").trim(),
         paper = style.getPropertyValue("--paper").trim(),
         bg = style.getPropertyValue("--bg").trim(),
-        dark = document.documentElement.dataset.theme === "dark";
+        font = style.getPropertyValue("--font-body").trim(),
+        ramp = [
+          "--bg",
+          "--activity-faint",
+          "--activity-low",
+          "--activity-mid",
+          "--activity-high",
+        ].map((token) => style.getPropertyValue(token).trim()),
+        dateOnly = style.getPropertyValue("--activity-date").trim();
       chart.setOption({
-        textStyle: { fontSize: 14 },
+        textStyle: { fontSize: 14, fontFamily: font },
         animation: false,
         tooltip: {
           backgroundColor: paper,
@@ -52,9 +60,7 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
           min: 0,
           max: 7200,
           inRange: {
-            color: dark
-              ? [bg, "#42623d", "#70935d", "#94b87b", "#a9cc8a"]
-              : [bg, "#e0ead4", "#bad0a1", "#72955d", "#2f4a3c"],
+            color: ramp,
           },
         },
         calendar: {
@@ -85,9 +91,7 @@ export default function Activity({ entries }: { entries: [string, number][] }) {
             coordinateSystem: "calendar",
             data: entries.map(([date, seconds]) => ({
               value: [date, seconds],
-              ...(seconds === 0
-                ? { itemStyle: { color: dark ? "#42623d" : "#bad0a1" } }
-                : {}),
+              ...(seconds === 0 ? { itemStyle: { color: dateOnly } } : {}),
             })),
           },
         ],

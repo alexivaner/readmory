@@ -10,7 +10,6 @@ import {
   Settings,
   Search,
   ArrowUpRight,
-  ArrowRight,
   Plus,
   Check,
   ShieldCheck,
@@ -52,7 +51,7 @@ import { isTimed } from "../../../packages/analytics/rhythm";
 import PersonalNotes from "./personal-notes";
 import ReadingRhythm from "./reading-rhythm";
 import ReadingStatistics from "./reading-statistics";
-import { Brand, BrandMark, BrandArtwork } from "./brand";
+import { Brand, BrandMark } from "./brand";
 import ImportGuide from "./import-guide";
 import type { ImportTask } from "./import-progress";
 import ReaderSources from "./reader-sources";
@@ -101,15 +100,10 @@ function Cover({ book, large = false }: { book: Book; large?: boolean }) {
         />
       ) : (
         <>
-          <div className="cover-rule" />
           <small>{book.author}</small>
           <strong>{book.title}</strong>
-          <div className="cover-art">
-            <span />
-            <span />
-            <span />
-          </div>
-          <BookOpen size={16} />
+
+          <BookOpen size={18} aria-hidden="true" />
         </>
       )}
     </div>
@@ -136,7 +130,6 @@ function Empty({
       {action && (
         <button className="primary" onClick={onAction}>
           {action}
-          <ArrowRight size={16} />
         </button>
       )}
     </div>
@@ -171,9 +164,67 @@ export default function Workspace() {
     [confirm, setConfirm] = useState<"clear" | "restore" | null>(null),
     [restore, setRestore] = useState<unknown>(null),
     [mobile, setMobile] = useState(false),
+    [smallScreen, setSmallScreen] = useState(false),
     [knowledgeLimit, setKnowledgeLimit] = useState(40),
     [libraryLimit, setLibraryLimit] = useState(48),
     [storageEstimate, setStorageEstimate] = useState("Checking…");
+  const menuRef = useRef<HTMLElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 760px)");
+    const update = () => {
+      setSmallScreen(media.matches);
+      if (!media.matches) setMobile(false);
+    };
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+  useEffect(() => {
+    if (!mobile || !smallScreen) return;
+    const menu = menuRef.current;
+    const trigger = menuButtonRef.current;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const controls = () =>
+      Array.from(
+        menu?.querySelectorAll<HTMLElement>(
+          "a[href], button:not([disabled])",
+        ) || [],
+      );
+    controls()[0]?.focus();
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setMobile(false);
+      }
+      if (event.key === "Tab") {
+        const items = controls();
+        const first = items[0],
+          last = items.at(-1);
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last?.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first?.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKey);
+      trigger?.focus();
+    };
+  }, [mobile, smallScreen]);
+  const hasBookFilters = query !== "" || status !== "all" || source !== "all";
+  function resetBookFilters() {
+    setQuery("");
+    setStatus("all");
+    setSource("all");
+    setLibraryLimit(48);
+  }
   const sourceData = useMemo(
     () => readingLibrary(storedData, includeStore),
     [storedData, includeStore],
@@ -499,10 +550,16 @@ export default function Workspace() {
     return (
       <article className="annotation" key={a.id}>
         <div className="annotation-top">
-          <span className="eyebrow">
+          <span className="record-caption">
             <Quote size={14} />
-            {a.kind === "bookmark" ? "KOBALT BOOKMARK" : a.source.toUpperCase()}
-            {a.sourceDeleted ? " · ARCHIVED" : ""}
+            {a.kind === "bookmark"
+              ? "KOBALT BOOKMARK"
+              : a.source === "koreader"
+                ? "KOReader"
+                : a.source === "kobalt"
+                  ? "Kobalt"
+                  : "Kobo"}
+            {a.sourceDeleted ? ", archived" : ""}
           </span>
           <button
             className={`icon-button ${k?.favorite ? "favorited" : ""}`}
@@ -526,7 +583,7 @@ export default function Workspace() {
           <div className="personal-note">
             <StickyNote size={14} />
             <div>
-              <small>YOUR NOTE</small>
+              <small>Your note</small>
               <p>{ownNote}</p>
             </div>
           </div>
@@ -586,7 +643,7 @@ export default function Workspace() {
                         : "Kobo",
                   ),
                 ),
-              ].join(" · ")}
+              ].join(", ")}
             </span>
             {b.status === "finished" && <Check size={13} />}
           </div>
@@ -609,7 +666,7 @@ export default function Workspace() {
                       : "In progress"}
             </span>
             <span>
-              {b.progress === null ? "—" : Math.round(b.progress) + "%"}
+              {b.progress === null ? "Unknown" : Math.round(b.progress) + "%"}
             </span>
           </div>
         </div>
@@ -628,11 +685,34 @@ export default function Workspace() {
       <a href="#main-content" className="skip-link">
         Skip to main content
       </a>
-      <aside className={`sidebar ${mobile ? "open" : ""}`}>
+      {mobile && smallScreen && (
+        <button
+          className="menu-backdrop"
+          aria-label="Dismiss navigation"
+          tabIndex={-1}
+          onClick={() => setMobile(false)}
+        />
+      )}
+      <aside
+        id="workspace-navigation"
+        ref={menuRef}
+        className={`sidebar ${mobile ? "open" : ""}`}
+        inert={smallScreen && !mobile}
+        role={smallScreen && mobile ? "dialog" : undefined}
+        aria-modal={smallScreen && mobile ? true : undefined}
+        aria-label="Workspace navigation"
+      >
+        <button
+          className="icon-button menu-close"
+          aria-label="Close menu"
+          onClick={() => setMobile(false)}
+        >
+          <X size={20} />
+        </button>
         <button className="brand" onClick={() => navigate("dashboard")}>
           <Brand />
         </button>
-        <div className="workspace-label">YOUR READING SPACE</div>
+
         <nav aria-label="Main navigation">
           {nav.map(({ id, label, icon: Icon }) => (
             <button
@@ -654,13 +734,13 @@ export default function Workspace() {
         </nav>
         <div className="sidebar-bottom">
           <a className="nav-item" href={appPath("/welcome/")}>
-            About this project ↗
+            About this project
           </a>
           <SupportLink className="nav-item sidebar-support" />
           <div className="sidebar-foot">
-            <span className="avatar">Y</span>
+            <ShieldCheck size={20} aria-hidden="true" />
             <div>
-              <strong>Your library</strong>
+              <strong>Local library</strong>
             </div>
             <button
               aria-label="Toggle color theme"
@@ -672,12 +752,15 @@ export default function Workspace() {
           </div>
         </div>
       </aside>
-      <div className="main-shell">
+      <div className="main-shell" inert={mobile && smallScreen}>
         <header className="topbar">
           <div className="breadcrumb">
             <button
               className="icon-button mobile-menu"
+              ref={menuButtonRef}
               aria-label="Open menu"
+              aria-expanded={mobile}
+              aria-controls="workspace-navigation"
               onClick={() => setMobile(!mobile)}
             >
               <Menu size={20} />
@@ -694,7 +777,9 @@ export default function Workspace() {
             </strong>
           </div>
           <div className="top-actions">
-            <span className="local-dot">Stored on this device</span>
+            <span className="storage-state">
+              <ShieldCheck size={15} aria-hidden="true" /> Stored on this device
+            </span>
             <SupportLink className="support-topbar" compact />
             <button
               className="icon-button"
@@ -790,10 +875,10 @@ export default function Workspace() {
               <section className="book-detail-hero">
                 <Cover book={activeBook} large />
                 <div>
-                  <span className="eyebrow">
-                    {activeBook.source} · {activeBook.status}
-                  </span>
                   <h1>{activeBook.title}</h1>
+                  <span className="record-caption">
+                    {activeBook.source}, {activeBook.status}
+                  </span>
                   <p className="subtitle">{activeBook.author}</p>
                   <div className="detail-facts">
                     <span>
@@ -1042,262 +1127,296 @@ export default function Workspace() {
                 <>
                   <div className="page-heading">
                     <div>
-                      <div className="eyebrow">
-                        A HOME FOR YOUR READING LIFE
-                      </div>
                       <h1>
-                        Your reading, remembered<span className="green">.</span>
+                        {data.books.length
+                          ? "Your reading"
+                          : "Welcome to Readmory"}
+                        <span className="green">.</span>
                       </h1>
                       <p className="subtitle">
-                        Keep the books. Collect the ideas. Make them yours.
+                        {data.books.length
+                          ? "Your books, notes, and recent reading in one place."
+                          : "Bring your books and highlights into a private, local library."}
                       </p>
                     </div>
-                    <button
-                      className="primary"
-                      onClick={() => navigate("import")}
-                    >
-                      <Usb size={17} />
-                      Connect Kobo
-                      <ArrowUpRight size={16} />
-                    </button>
-                  </div>
-                  <section className="hero-banner">
-                    <div>
-                      <span className="eyebrow">BETWEEN THE LINES</span>
-                      <h2>
-                        Good books end.
-                        <br />
-                        Their ideas stay with you.
-                      </h2>
-                      <p>
-                        A private home for everything you underline,
-                        <br className="desktop-break" /> wonder about, and want
-                        to remember.
-                      </p>
+                    {data.books.length > 0 && (
                       <button
-                        className="text-link"
-                        onClick={() =>
-                          navigate(
-                            data.annotations.length ? "knowledge" : "import",
-                          )
-                        }
-                      >
-                        {data.annotations.length
-                          ? "Rediscover your ideas"
-                          : "Bring your library home"}
-                        <ArrowRight size={16} />
-                      </button>
-                    </div>
-                    <BrandArtwork className="dashboard-brand-art" />
-                  </section>
-                  <section
-                    className="stat-grid"
-                    aria-label="Reading statistics"
-                  >
-                    {[
-                      {
-                        label: "Books in your library",
-                        value: stats.total,
-                        icon: BookOpen,
-                        detail: `${stats.everFinished} finished before · ${stats.rereading} rereading`,
-                      },
-                      {
-                        label: "Highlights collected",
-                        value: stats.highlights,
-                        icon: Quote,
-                        detail: "Ideas worth coming back to",
-                      },
-                      {
-                        label: "Personal notes",
-                        value: stats.notes + data.reflections.length,
-                        icon: StickyNote,
-                        detail: "Reader notes & your reflections",
-                      },
-                      {
-                        label: "Reading time",
-                        value: `${stats.durationIsMinimum ? "At least " : ""}${duration(stats.duration)}`,
-                        icon: Clock,
-                        detail:
-                          stats.duration === null
-                            ? "Import recorded statistics to begin"
-                            : "Conservative totals across readers",
-                      },
-                    ].map(({ label, value, icon: Icon, detail }) => (
-                      <button
-                        className="stat-card"
-                        key={label}
-                        onClick={() =>
-                          navigate(
-                            label === "Personal notes"
-                              ? "notes"
-                              : label === "Reading time"
-                                ? "rhythm"
-                                : label === "Books in your library"
-                                  ? "library"
-                                  : "knowledge",
-                          )
-                        }
-                      >
-                        <div>
-                          <span>{label}</span>
-                          <Icon size={17} />
-                        </div>
-                        <strong>{value}</strong>
-                        <small>{detail}</small>
-                      </button>
-                    ))}
-                  </section>
-                  <section className="dashboard-columns">
-                    <div>
-                      <div className="section-heading">
-                        <div>
-                          <h2>On your reading table</h2>
-                          <p>One chapter closer to a new perspective.</p>
-                        </div>
-                        <button
-                          className="text-link"
-                          onClick={() => navigate("library")}
-                        >
-                          View library
-                          <ArrowRight size={14} />
-                        </button>
-                      </div>
-                      {data.books.length ? (
-                        <div className="book-grid dashboard-books">
-                          {[...data.books]
-                            .sort(
-                              (a, b) =>
-                                Number(b.status === "reading") -
-                                  Number(a.status === "reading") ||
-                                (b.lastRead || "").localeCompare(
-                                  a.lastRead || "",
-                                ),
-                            )
-                            .slice(0, 4)
-                            .map(bookCard)}
-                        </div>
-                      ) : (
-                        <Empty
-                          title="Your next chapter starts here"
-                          text="Connect your Kobo to bring your books, highlights, and notes into one quiet space."
-                          action="Import your first books"
-                          onAction={() => navigate("import")}
-                        />
-                      )}
-                    </div>
-                    <aside className="panel activity-panel">
-                      <div className="section-heading">
-                        <h2>A reading rhythm</h2>
-                        <span className="pill">6 months</span>
-                      </div>
-                      <button
-                        className="text-link"
-                        onClick={() => navigate("rhythm")}
-                      >
-                        View reading details <ArrowUpRight size={17} />
-                      </button>
-                      <Activity entries={[...stats.activity]} />
-                      <div className="activity-caption">
-                        <span>
-                          {stats.activity.size} days with recorded activity
-                        </span>
-                        <span className="heat-legend">
-                          {[...stats.activity.values()].some((v) => v === 0) ? (
-                            "Includes dates without duration"
-                          ) : (
-                            <>
-                              Less <i />
-                              <i />
-                              <i /> More
-                            </>
-                          )}
-                        </span>
-                      </div>
-                      <div className="divider" />
-                      <div className="section-heading">
-                        <h3>Last connection</h3>
-                        <Usb size={16} />
-                      </div>
-                      {data.snapshots.length ? (
-                        <>
-                          <strong>{data.snapshots.at(-1)?.deviceId}</strong>
-                          <p className="muted">
-                            {date(data.snapshots.at(-1)!.at)} ·{" "}
-                            {data.snapshots.at(-1)?.books} source records
-                            discovered
-                          </p>
-                        </>
-                      ) : (
-                        <p className="muted">Your Kobo hasn’t visited yet.</p>
-                      )}
-                      <button
-                        className="text-link"
+                        className="primary"
                         onClick={() => navigate("import")}
                       >
-                        Import & sync
-                        <ArrowRight size={14} />
+                        <Usb size={17} /> Connect Kobo
                       </button>
-                    </aside>
-                  </section>
-                  <section>
-                    <div className="section-heading">
-                      <div>
-                        <h2>Ideas to come back to</h2>
-                        <p>A few words can open a whole new world.</p>
-                      </div>
-                      <button
-                        className="text-link"
-                        onClick={() => navigate("knowledge")}
-                      >
-                        All your knowledge
-                        <ArrowRight size={14} />
-                      </button>
-                    </div>
-                    {data.annotations.some((a) => !a.sourceDeleted) ? (
-                      <div className="annotation-grid">
-                        {data.annotations
-                          .filter((a) => !a.sourceDeleted)
-                          .slice(-3)
-                          .reverse()
-                          .map(annotationCard)}
-                      </div>
-                    ) : (
-                      <div className="quiet-empty">
-                        <Quote size={23} />
-                        <p>
-                          Your highlights will find a home here.
-                          <span>
-                            Import your annotations to start collecting
-                            connections.
-                          </span>
-                        </p>
-                      </div>
                     )}
-                  </section>
-                  {data.books.some(
-                    (b) =>
-                      b.readingHistory?.everFinished || b.status === "finished",
-                  ) && (
-                    <section>
-                      <div className="section-heading">
-                        <h2>Finished at least once</h2>
+                  </div>
+                  {data.books.length === 0 ? (
+                    <section
+                      className="getting-started"
+                      aria-labelledby="getting-started-title"
+                    >
+                      <div className="setup-intro">
+                        <Usb size={28} aria-hidden="true" />
+                        <h2 id="getting-started-title">
+                          Start with your reader
+                        </h2>
+                        <p>
+                          Import books, highlights, and reading history from
+                          Kobo, KOReader, or Kobalt. Your reader’s files stay
+                          untouched.
+                        </p>
+                        <button
+                          className="primary"
+                          onClick={() => navigate("import")}
+                        >
+                          Connect Kobo
+                        </button>
+                        <button
+                          className="text-link"
+                          onClick={() => navigate("settings")}
+                        >
+                          Have a Readmory backup? Restore it
+                        </button>
                       </div>
-                      <div className="book-grid">
-                        {data.books
-                          .filter(
-                            (b) =>
-                              b.readingHistory?.everFinished ||
-                              b.status === "finished",
-                          )
-                          .sort((a, b) =>
-                            (b.finishedAt || "").localeCompare(
-                              a.finishedAt || "",
-                            ),
-                          )
-                          .slice(0, 4)
-                          .map(bookCard)}
-                      </div>
+                      <ol className="setup-steps">
+                        <li>
+                          <strong>Connect by USB</strong>
+                          <p>
+                            Plug in your Kobo and enable its USB connection.
+                          </p>
+                        </li>
+                        <li>
+                          <strong>Choose your files</strong>
+                          <p>
+                            Select the reader folder or saved source files. The
+                            import guide shows you where to look.
+                          </p>
+                        </li>
+                        <li>
+                          <strong>Review and save</strong>
+                          <p>
+                            Check the preview before adding anything to your
+                            library.
+                          </p>
+                        </li>
+                      </ol>
+                      <p className="setup-privacy">
+                        <ShieldCheck size={18} /> No account needed. Stored in
+                        this browser. Download backups in Settings.
+                      </p>
                     </section>
+                  ) : (
+                    <>
+                      <section className="dashboard-columns">
+                        <div>
+                          <div className="section-heading">
+                            <div>
+                              <h2>On your reading table</h2>
+                              <p>
+                                Recently read books, with in-progress books
+                                first.
+                              </p>
+                            </div>
+                            <button
+                              className="text-link"
+                              onClick={() => navigate("library")}
+                            >
+                              View library
+                            </button>
+                          </div>
+                          {data.books.length ? (
+                            <div className="book-grid dashboard-books">
+                              {[...data.books]
+                                .sort(
+                                  (a, b) =>
+                                    Number(b.status === "reading") -
+                                      Number(a.status === "reading") ||
+                                    (b.lastRead || "").localeCompare(
+                                      a.lastRead || "",
+                                    ),
+                                )
+                                .slice(0, 4)
+                                .map(bookCard)}
+                            </div>
+                          ) : (
+                            <Empty
+                              title="Your next chapter starts here"
+                              text="Connect your Kobo to bring your books, highlights, and notes into one quiet space."
+                              action="Import your first books"
+                              onAction={() => navigate("import")}
+                            />
+                          )}
+                        </div>
+                        <aside className="panel activity-panel">
+                          <div className="section-heading">
+                            <h2>A reading rhythm</h2>
+                            <span className="pill">6 months</span>
+                          </div>
+                          <button
+                            className="text-link"
+                            onClick={() => navigate("rhythm")}
+                          >
+                            View reading details <ArrowUpRight size={17} />
+                          </button>
+                          <Activity entries={[...stats.activity]} />
+                          <div className="activity-caption">
+                            <span>
+                              {stats.activity.size} days with recorded activity
+                            </span>
+                            <span className="heat-legend">
+                              {[...stats.activity.values()].some(
+                                (v) => v === 0,
+                              ) ? (
+                                "Includes dates without duration"
+                              ) : (
+                                <>
+                                  Less <i />
+                                  <i />
+                                  <i /> More
+                                </>
+                              )}
+                            </span>
+                          </div>
+                          <div className="divider" />
+                          <div className="section-heading">
+                            <h3>Last connection</h3>
+                            <Usb size={16} />
+                          </div>
+                          {data.snapshots.length ? (
+                            <>
+                              <strong>{data.snapshots.at(-1)?.deviceId}</strong>
+                              <p className="muted">
+                                {date(data.snapshots.at(-1)!.at)},{" "}
+                                {data.snapshots.at(-1)?.books} source records
+                                discovered
+                              </p>
+                            </>
+                          ) : (
+                            <p className="muted">No reader imports yet.</p>
+                          )}
+                          <button
+                            className="text-link"
+                            onClick={() => navigate("import")}
+                          >
+                            Import & sync
+                          </button>
+                        </aside>
+                      </section>
+                      <section
+                        className="stat-grid"
+                        aria-label="Reading statistics"
+                      >
+                        {[
+                          {
+                            label: "Books in your library",
+                            value: stats.total,
+                            icon: BookOpen,
+                            detail: `${stats.everFinished} finished before, ${stats.rereading} rereading`,
+                          },
+                          {
+                            label: "Highlights collected",
+                            value: stats.highlights,
+                            icon: Quote,
+                            detail: "Ideas worth coming back to",
+                          },
+                          {
+                            label: "Personal notes",
+                            value: stats.notes + data.reflections.length,
+                            icon: StickyNote,
+                            detail: "Reader notes & your reflections",
+                          },
+                          {
+                            label: "Reading time",
+                            value: `${stats.durationIsMinimum ? "At least " : ""}${duration(stats.duration)}`,
+                            icon: Clock,
+                            detail:
+                              stats.duration === null
+                                ? "Import recorded statistics to begin"
+                                : "Conservative totals across readers",
+                          },
+                        ].map(({ label, value, detail }) => (
+                          <button
+                            className="stat-card"
+                            key={label}
+                            onClick={() =>
+                              navigate(
+                                label === "Personal notes"
+                                  ? "notes"
+                                  : label === "Reading time"
+                                    ? "rhythm"
+                                    : label === "Books in your library"
+                                      ? "library"
+                                      : "knowledge",
+                              )
+                            }
+                          >
+                            <div>
+                              <span>{label}</span>
+                            </div>
+                            <strong>{value}</strong>
+                            <small>{detail}</small>
+                          </button>
+                        ))}
+                      </section>
+                      <section>
+                        <div className="section-heading">
+                          <div>
+                            <h2>Ideas to come back to</h2>
+                            <p>Your latest imported highlights and notes.</p>
+                          </div>
+                          <button
+                            className="text-link"
+                            onClick={() => navigate("knowledge")}
+                          >
+                            All your knowledge
+                          </button>
+                        </div>
+                        {data.annotations.some((a) => !a.sourceDeleted) ? (
+                          <div className="annotation-grid">
+                            {data.annotations
+                              .filter((a) => !a.sourceDeleted)
+                              .slice(-3)
+                              .reverse()
+                              .map(annotationCard)}
+                          </div>
+                        ) : (
+                          <div className="quiet-empty">
+                            <Quote size={23} />
+                            <p>
+                              Your highlights will find a home here.
+                              <span>
+                                Import your annotations to start collecting
+                                connections.
+                              </span>
+                            </p>
+                          </div>
+                        )}
+                      </section>
+                      {data.books.some(
+                        (b) =>
+                          b.readingHistory?.everFinished ||
+                          b.status === "finished",
+                      ) && (
+                        <section>
+                          <div className="section-heading">
+                            <h2>Finished at least once</h2>
+                          </div>
+                          <div className="book-grid">
+                            {data.books
+                              .filter(
+                                (b) =>
+                                  b.readingHistory?.everFinished ||
+                                  b.status === "finished",
+                              )
+                              .sort((a, b) =>
+                                (b.finishedAt || "").localeCompare(
+                                  a.finishedAt || "",
+                                ),
+                              )
+                              .slice(0, 4)
+                              .map(bookCard)}
+                          </div>
+                        </section>
+                      )}
+                    </>
                   )}
                 </>
               )}
@@ -1305,12 +1424,12 @@ export default function Workspace() {
                 <>
                   <div className="page-heading">
                     <div>
-                      <span className="eyebrow">YOUR PERSONAL BOOKSHELF</span>
                       <h1>
                         My library<span className="green">.</span>
                       </h1>
                       <p className="subtitle">
-                        Every book is a place you’ve been.
+                        Browse your books or find a title, author, or
+                        collection.
                       </p>
                     </div>
                     <button
@@ -1360,7 +1479,7 @@ export default function Workspace() {
                       onChange={(e) => setSort(e.target.value)}
                     >
                       <option value="recent">Recently read</option>
-                      <option value="title">Title A–Z</option>
+                      <option value="title">Title A to Z</option>
                       <option value="progress">Progress</option>
                     </select>
                   </div>
@@ -1380,8 +1499,17 @@ export default function Workspace() {
                     {storedData.books.filter((b) => !isReadingBook(b)).length})
                   </label>
                   <div className="results-label">
-                    {filteredBooks.length} books · safely kept, even after they
-                    leave your Kobo
+                    <span>
+                      {filteredBooks.length} books
+                      {hasBookFilters
+                        ? ` matching filters, ${data.books.length} total`
+                        : " in your library"}
+                    </span>
+                    {hasBookFilters && (
+                      <button className="text-link" onClick={resetBookFilters}>
+                        <X size={15} /> Reset filters
+                      </button>
+                    )}
                   </div>
                   {filteredBooks.length ? (
                     <>
@@ -1410,9 +1538,15 @@ export default function Workspace() {
                           : "Your library stays with you, even when your Kobo is disconnected."
                       }
                       action={
-                        data.books.length ? undefined : "Connect your Kobo"
+                        data.books.length
+                          ? "Reset filters"
+                          : "Connect your Kobo"
                       }
-                      onAction={() => navigate("import")}
+                      onAction={
+                        data.books.length
+                          ? resetBookFilters
+                          : () => navigate("import")
+                      }
                     />
                   )}
                 </>
@@ -1438,7 +1572,6 @@ export default function Workspace() {
                 <>
                   <div className="page-heading">
                     <div>
-                      <span className="eyebrow">THE IDEAS YOU KEEP</span>
                       <h1>
                         Knowledge library<span className="green">.</span>
                       </h1>
@@ -1490,7 +1623,7 @@ export default function Workspace() {
                     </label>
                   </div>
                   <div className="results-label">
-                    {annotations.length} ideas · original quotations and your
+                    {annotations.length} ideas: original quotations and your
                     notes, kept separately
                   </div>
                   {annotations.length ? (
@@ -1583,7 +1716,9 @@ export default function Workspace() {
                           )
                           .map((r) => (
                             <article className="annotation" key={r.id}>
-                              <span className="eyebrow">YOUR REFLECTION</span>
+                              <span className="record-caption">
+                                Your reflection
+                              </span>
                               <p className="reflection-text">{r.text}</p>
                               <button
                                 className="text-link"
@@ -1890,7 +2025,6 @@ export default function Workspace() {
                 <>
                   <div className="page-heading">
                     <div>
-                      <span className="eyebrow">MAKE YOURSELF AT HOME</span>
                       <h1>
                         Settings<span className="green">.</span>
                       </h1>

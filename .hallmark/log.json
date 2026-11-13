@@ -1,0 +1,37 @@
+[
+  {
+    "mode": "redesign",
+    "depth": "full",
+    "scope": "app",
+    "shape": "app screen",
+    "theme": "brand",
+    "axes": "light/roman-serif/cool",
+    "hero": "app screen",
+    "nav": "existing eight-destination rail, forest surface",
+    "footer": "existing colophon",
+    "imagery": "existing brand assets and imported book covers; synthetic fixtures for verification",
+    "photos": [],
+    "entry": "apps/web/app/globals.css",
+    "fingerprint": "forest rail; book-first reading shelf; supporting statistics; unboxed quotations",
+    "sections": [
+      "reading shelf",
+      "reading activity",
+      "statistics",
+      "highlights",
+      "completion history"
+    ],
+    "signature": "reading shelf",
+    "waived": [],
+    "prompt": "Redesign Readmory to remove generated-looking design while retaining all reading workflows",
+    "date": "2026-11-13",
+    "sweep": {
+      "automatedFloorFlags": 1,
+      "judgedFalsePositives": 1,
+      "reflex": 0,
+      "finishReview": "subagent ship",
+      "linksKept": "19/19",
+      "handlersKept": "121/121",
+      "headingsKept": "11/11"
+    }
+  }
+]

@@ -10,7 +10,7 @@ export default function Welcome() {
           <Brand />
         </a>
         <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-          View on GitHub ↗
+          View on GitHub
         </a>
       </nav>
       <section className="welcome-hero">
@@ -21,20 +21,12 @@ export default function Welcome() {
             remembered.
           </h1>
           <p>
-            Your books, highlights, and ideas. One quiet place to make them
-            yours.
+            Keep your Kobo books, highlights, and reading history together.
+            Private, in your browser.
           </p>
           <div className="actions">
             <a className="primary" href={appPath("/")}>
-              Open App →
-            </a>
-            <a
-              className="secondary"
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              View on GitHub
+              Open App
             </a>
           </div>
           <small>Free and open-source. No account required.</small>
@@ -75,8 +67,7 @@ export default function Welcome() {
         className="welcome-import"
         aria-labelledby="welcome-import-title"
       >
-        <span className="eyebrow">FROM YOUR READER TO YOUR READING SPACE</span>
-        <h2 id="welcome-import-title">A few minutes. A library to keep.</h2>
+        <h2 id="welcome-import-title">From your Kobo to your library</h2>
         <ol>
           {[
             [
@@ -91,7 +82,7 @@ export default function Welcome() {
             ],
             [
               "03",
-              "Make yourself at home",
+              "Review and save",
               "Review and save, then disconnect. Your library stays in this browser.",
             ],
           ].map(([n, title, text]) => (
@@ -103,7 +94,7 @@ export default function Welcome() {
           ))}
         </ol>
         <a className="primary" href={appPath("/#import")}>
-          Start guided import →
+          Start guided import
         </a>
       </section>
       <footer>
@@ -118,7 +109,7 @@ export default function Welcome() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Support Readmory on Ko-fi ↗
+          Support Readmory on Ko-fi
         </a>
         <p>
           Support this free and open-source project. Donations never unlock or
