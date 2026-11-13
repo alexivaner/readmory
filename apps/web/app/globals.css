@@ -2425,8 +2425,23 @@ summary {
 .reading-session .text-link {
   font-size: 15px;
   margin: var(--space-4) 0;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
   max-width: 100%;
+  min-width: 0;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+.session-book-title {
+  flex: 1;
+  min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.reading-session .text-link > svg {
+  margin-top: var(--space-4);
 }
 
 .session-time-row {

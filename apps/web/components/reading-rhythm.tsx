@@ -308,7 +308,7 @@ export default function ReadingRhythm({
                       onClick={() => onOpenBook(item.ids[0])}
                     >
                       <BookOpen size={16} />
-                      {item.title}
+                      <span className="session-book-title">{item.title}</span>
                       <ArrowUpRight size={16} />
                     </button>
                     {item.entries.length > 0 ? (
