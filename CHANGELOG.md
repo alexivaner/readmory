@@ -2,6 +2,8 @@
 
 ## 0.1.0 — Public beta
 
+- Skip protected macOS and Windows system folders during read-only USB scans, including `.TemporaryItems`, which Chrome reports as a filesystem write error. Source-folder read failures now include the affected path and recovery steps.
+
 - Fall back atomically to IndexedDB when browser filesystem writes are blocked or unsupported; remember the saved backend across reloads, retain existing libraries on failed saves, and test storage failures in Chromium, Firefox and WebKit.
 
 - More visible Ko-fi support buttons and a dismissible inline reminder after five minutes of eligible visible use, limited to once per 30 days in this browser.
