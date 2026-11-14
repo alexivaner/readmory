@@ -1,4 +1,5 @@
 "use client";
+import { scanSourceFiles, type SourceHandle } from "../lib/source-files";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import {
   BookOpen,
@@ -485,51 +486,25 @@ export default function Workspace() {
     }
   }
   async function pickFolder() {
-    type Handle = {
-      kind: "file" | "directory";
-      name: string;
-      getFile: () => Promise<File>;
-      values: () => AsyncIterable<Handle>;
-    };
     const picker = (
-      window as unknown as { showDirectoryPicker?: () => Promise<Handle> }
+      window as unknown as {
+        showDirectoryPicker?: (options: {
+          mode: "read";
+        }) => Promise<SourceHandle>;
+      }
     ).showDirectoryPicker;
     if (!picker) {
       folderRef.current?.click();
       return;
     }
     try {
-      const root = await picker();
-      const files: { path: string; file: File }[] = [];
-      async function walk(dir: Handle, path: string, depth = 0) {
-        if (depth > 40) throw Error("Folder nesting exceeds the safe limit.");
-        for await (const h of dir.values()) {
-          const next = path + "/" + h.name;
-          if (h.kind === "directory") {
-            if (
-              ![".Trash", ".Trashes", ".Spotlight-V100", ".fseventsd"].includes(
-                h.name,
-              )
-            )
-              await walk(h, next, depth + 1);
-          } else if (
-            /(?:KoboReader\.sqlite(?:-wal|-shm|-journal)?|statistics\.sqlite3(?:-wal|-shm|-journal)?|kobalt\.sqlite(?:-wal|-shm|-journal)?|metadata\.[\w]+\.lua|\.epub|\.parsed|\.(?:jpg|jpeg|png))$/i.test(
-              next,
-            )
-          ) {
-            files.push({ path: next, file: await h.getFile() });
-            if (files.length % 50 === 0)
-              setImportTask({ stage: "scan", completed: files.length });
-            if (files.length > 15000)
-              throw Error(
-                "Folder has too many files. Select source files instead.",
-              );
-          }
-        }
-      }
+      const root = await picker({ mode: "read" });
+      setError("");
       setImportTask({ stage: "scan", completed: 0 });
       setBusy("Scanning selected folder…");
-      await walk(root, "");
+      const files = await scanSourceFiles(root, (completed) =>
+        setImportTask({ stage: "scan", completed }),
+      );
       await selectFiles(files);
     } catch (e) {
       setImportTask(null);
