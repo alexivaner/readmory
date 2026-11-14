@@ -136,6 +136,48 @@ test("statistics filter measured time and generate a private cover share card of
   expect(bytes.readUInt32BE(16)).toBe(1080);
   expect(bytes.readUInt32BE(20)).toBe(1350);
   expect(download.suggestedFilename()).toBe("readmory-all-time.png");
+  await dialog.screenshot({
+    path: testInfo.outputPath("share-studio-forest.png"),
+  });
+  await dialog.getByRole("button", { name: "Paper", exact: true }).click();
+  await expect(
+    dialog.getByRole("button", { name: "Download PNG", exact: true }),
+  ).toBeEnabled();
+  await expect(
+    dialog.getByRole("button", { name: "Paper", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  const [paper] = await Promise.all([
+    page.waitForEvent("download"),
+    dialog.getByRole("button", { name: "Download PNG", exact: true }).click(),
+  ]);
+  await paper.saveAs(testInfo.outputPath("reading-share-card-paper.png"));
+  await page.evaluate(() => {
+    document.documentElement.dataset.theme = "dark";
+  });
+  await dialog.screenshot({
+    path: testInfo.outputPath("share-studio-dark.png"),
+  });
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await expect(
+    dialog.getByRole("button", { name: "Download PNG", exact: true }),
+  ).toBeInViewport();
+  expect(
+    await dialog
+      .getByRole("button", { name: "Download PNG", exact: true })
+      .evaluate((el) => el.getBoundingClientRect().bottom <= innerHeight),
+  ).toBe(true);
+  await dialog.screenshot({
+    path: testInfo.outputPath("share-studio-laptop.png"),
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await dialog.screenshot({
+    path: testInfo.outputPath("share-studio-mobile.png"),
+  });
+  expect(await dialog.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(
+    true,
+  );
+  await page.setViewportSize({ width: 1440, height: 1000 });
+
   await expect(dialog).not.toContainText("Look closer on the walk home.");
   await page.evaluate(() =>
     Object.defineProperty(navigator, "canShare", {
@@ -157,6 +199,41 @@ test("statistics filter measured time and generate a private cover share card of
     dialog.getByRole("button", { name: "Download PNG", exact: true }).click(),
   ]);
   await redacted.saveAs(testInfo.outputPath("reading-share-card-no-books.png"));
+  await dialog.getByRole("button", { name: "Detailed", exact: true }).click();
+  await expect(dialog.getByText("1080 × 1920", { exact: true })).toBeVisible();
+  await expect(
+    dialog.getByRole("button", { name: "Download PNG", exact: true }),
+  ).toBeEnabled();
+  const [detailPrivate] = await Promise.all([
+    page.waitForEvent("download"),
+    dialog.getByRole("button", { name: "Download PNG", exact: true }).click(),
+  ]);
+  await detailPrivate.saveAs(
+    testInfo.outputPath("reading-share-card-detailed-private.png"),
+  );
+  expect((await readFile(await detailPrivate.path())).readUInt32BE(20)).toBe(
+    1920,
+  );
+  await dialog.getByLabel("Include book covers and titles").check();
+  await expect(
+    dialog.getByRole("button", { name: "Download PNG", exact: true }),
+  ).toBeEnabled();
+  const [detail] = await Promise.all([
+    page.waitForEvent("download"),
+    dialog.getByRole("button", { name: "Download PNG", exact: true }).click(),
+  ]);
+  await detail.saveAs(testInfo.outputPath("reading-share-card-detailed.png"));
+  await dialog.screenshot({
+    path: testInfo.outputPath("share-studio-detailed.png"),
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect(await dialog.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(
+    true,
+  );
+  await dialog.screenshot({
+    path: testInfo.outputPath("share-studio-detailed-mobile.png"),
+  });
+
   await dialog
     .getByRole("button", { name: "Close share card", exact: true })
     .click();

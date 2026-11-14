@@ -2,6 +2,8 @@
 
 ## 0.1.0 — Public beta
 
+- Redesigned reading share cards with Forest and Paper styles, clearer time qualifiers and book rankings, proportional covers and an improved desktop/mobile export preview. Optional detailed cards add activity charts, session and time-coverage statistics, and up to six ranked books. Statistics and book details remain generated locally.
+
 - Skip protected macOS and Windows system folders during read-only USB scans, including `.TemporaryItems`, which Chrome reports as a filesystem write error. Source-folder read failures now include the affected path and recovery steps.
 
 - Fall back atomically to IndexedDB when browser filesystem writes are blocked or unsupported; remember the saved backend across reloads, retain existing libraries on failed saves, and test storage failures in Chromium, Firefox and WebKit.

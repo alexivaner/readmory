@@ -1,13 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  ArrowUpRight,
-  Download,
-  Share2,
-  X,
-  BookOpen,
-  Loader2,
-} from "lucide-react";
+import { ArrowUpRight, Download, Share2, X, BookOpen } from "lucide-react";
 import { type Library, type Book, isReadingBook } from "../../../packages/core";
 import { duration } from "../../../packages/analytics";
 import {
@@ -16,8 +9,10 @@ import {
   periodLabel,
   type Period,
 } from "../../../packages/analytics/statistics";
+import { readingTimeline } from "../../../packages/analytics/timeline";
+import { inPeriod } from "../../../packages/analytics/statistics";
 import { groupBooks } from "../../../packages/core/grouping";
-import { createShareCard } from "../lib/share-card";
+import { createShareCard, type ShareCardTheme } from "../lib/share-card";
 import Modal from "./modal";
 const readers = { kobo: "Kobo", kobalt: "Kobalt", koreader: "KOReader" };
 function Thumbnail({ book }: { book: Book }) {
@@ -87,10 +82,69 @@ export default function ReadingStatistics({
   const max = Math.max(1, ...months.map((s) => s.seconds || 0));
   const [preview, setPreview] = useState(false),
     [showBooks, setShowBooks] = useState(true),
+    [cardTheme, setCardTheme] = useState<ShareCardTheme>("forest"),
+    [detailed, setDetailed] = useState(false),
     [url, setUrl] = useState(""),
     [blob, setBlob] = useState<Blob | null>(null),
     [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  const activity = useMemo(() => {
+    if (!preview || !detailed) return undefined;
+    const days = [...readingTimeline(library, source).days.keys()].filter(
+      (day) => inPeriod(day + "T12:00:00", period),
+    );
+    if (period.year === null) {
+      const allYears = [...new Set(days.map((day) => day.slice(0, 4)))].sort();
+      if (allYears.length === 1)
+        return {
+          label: `Recorded active days in ${allYears[0]}`,
+          daily: false,
+          values: Array.from({ length: 12 }, (_, i) => ({
+            label: new Date(Number(allYears[0]), i, 15).toLocaleDateString(
+              undefined,
+              { month: "short" },
+            ),
+            value: days.filter((day) => Number(day.slice(5, 7)) === i + 1)
+              .length,
+          })),
+        };
+      return {
+        label:
+          allYears.length > 12
+            ? "Recorded active days: latest 12 years"
+            : "Recorded active days by year",
+        daily: false,
+        values: allYears
+          .slice(-12)
+          .map((year) => ({
+            label: year,
+            value: days.filter((day) => day.startsWith(year)).length,
+          })),
+      };
+    }
+    if (period.month === null)
+      return {
+        label: `Recorded active days in ${period.year}`,
+        daily: false,
+        values: Array.from({ length: 12 }, (_, i) => ({
+          label: new Date(period.year!, i, 15).toLocaleDateString(undefined, {
+            month: "short",
+          }),
+          value: days.filter((day) => Number(day.slice(5, 7)) === i + 1).length,
+        })),
+      };
+    return {
+      label: `Reading activity in ${periodLabel(period)}`,
+      daily: true,
+      values: Array.from(
+        { length: new Date(period.year, period.month, 0).getDate() },
+        (_, i) => ({
+          label: String(i + 1),
+          value: days.some((day) => Number(day.slice(8, 10)) === i + 1) ? 1 : 0,
+        }),
+      ),
+    };
+  }, [preview, detailed, library, source, period]);
   const owned = useRef("");
   useEffect(() => {
     if (!preview) return;
@@ -98,7 +152,13 @@ export default function ReadingStatistics({
     setBusy(true);
     setError("");
     setBlob(null);
-    createShareCard(stats, ranked, { showBooks, by })
+    createShareCard(stats, ranked, {
+      showBooks,
+      by,
+      theme: cardTheme,
+      detailed,
+      activity,
+    })
       .then((b) => {
         if (cancelled) return;
         if (owned.current) URL.revokeObjectURL(owned.current);
@@ -116,7 +176,7 @@ export default function ReadingStatistics({
     return () => {
       cancelled = true;
     };
-  }, [preview, stats, ranked, showBooks, by]);
+  }, [preview, stats, ranked, showBooks, by, cardTheme, detailed, activity]);
   useEffect(
     () => () => {
       if (owned.current) URL.revokeObjectURL(owned.current);
@@ -490,69 +550,169 @@ export default function ReadingStatistics({
         </section>
       )}
       {preview && (
-        <Modal label="share-card-title" onClose={() => setPreview(false)}>
-          <div className="section-heading">
-            <h2 id="share-card-title">Your reading, ready to share</h2>
+        <Modal
+          label="share-card-title"
+          onClose={() => setPreview(false)}
+          className="share-dialog"
+        >
+          <div className="share-dialog-header">
+            <div>
+              <h2 id="share-card-title">Your reading, ready to share</h2>
+              <p className="muted">A little portrait of your reading life.</p>
+            </div>
             <button
               className="icon-button"
               aria-label="Close share card"
               onClick={() => setPreview(false)}
             >
-              <X size={16} />
+              <X size={20} />
             </button>
           </div>
-          <p className="muted">
-            Generated on your device. Only the statistics and books shown here
-            are included; your notes and highlights stay private.
-          </p>
-          <label className="check-label">
-            <input
-              type="checkbox"
-              checked={showBooks}
-              onChange={(e) => setShowBooks(e.target.checked)}
-            />
-            Include book covers and titles
-          </label>
-          <p className="results-label">
-            {periodLabel(period)} · Ranked by{" "}
-            {by === "days" ? "active reading days" : "reading time"}
-          </p>
-          {busy ? (
-            <p role="status">
-              <Loader2 className="spin" size={16} /> Creating your card…
-            </p>
-          ) : (
-            url && (
-              <img
-                className="share-card-preview"
-                src={url}
-                alt={`Share card for ${periodLabel(period)}: ${stats.seconds === null ? "time unavailable" : duration(stats.seconds)}, ${stats.activeDays} active days, ${stats.books} books`}
-              />
-            )
-          )}{" "}
-          {error && <p role="alert">{error}</p>}
-          <div className="button-row">
-            <button
-              className="primary"
-              disabled={busy || !blob}
-              onClick={download}
+          <div className="share-editor">
+            <div
+              className="share-stage"
+              data-detail={detailed ? "detailed" : "summary"}
+              aria-busy={busy}
             >
-              <Download size={16} />
-              Download PNG
-            </button>
-            <button
-              className="secondary"
-              disabled={busy || !blob}
-              onClick={share}
-            >
-              <Share2 size={16} />
-              Share image
-            </button>
+              {busy ? (
+                <div className="share-card-skeleton" role="status">
+                  <span className="share-skeleton-brand" />
+                  <span className="share-skeleton-title" />
+                  <span className="share-skeleton-time" />
+                  <div>
+                    <span />
+                    <span />
+                    <span />
+                  </div>
+                  <p>Creating your card…</p>
+                </div>
+              ) : url ? (
+                <img
+                  className="share-card-preview"
+                  src={url}
+                  alt={`Share card for ${periodLabel(period)}: ${stats.estimated ? "estimated " : stats.minimum ? "at least " : ""}${stats.seconds === null ? "time unavailable" : duration(stats.seconds)}, ${stats.activeDays} active days, ${stats.books} books${showBooks ? ", with book covers and titles" : ", without book details"}${detailed ? ", with detailed activity and session statistics" : ""}`}
+                />
+              ) : (
+                <p className="muted">Your preview will appear here.</p>
+              )}
+            </div>
+            <div className="share-options">
+              <div className="share-configuration">
+                <div className="share-context">
+                  <span>Reading recap</span>
+                  <h3>{periodLabel(period)}</h3>
+                  <p>
+                    {source === "all"
+                      ? "All readers"
+                      : readers[source as keyof typeof readers] || source}{" "}
+                    ·{" "}
+                    {by === "days"
+                      ? "Ranked by active days"
+                      : "Ranked by reading time"}
+                  </p>
+                </div>
+                <fieldset className="share-style">
+                  <legend>Card style</legend>
+                  <div className="share-style-options">
+                    {(["forest", "paper"] as const).map((style) => (
+                      <button
+                        key={style}
+                        className="share-style-option"
+                        type="button"
+                        aria-pressed={cardTheme === style}
+                        onClick={() => setCardTheme(style)}
+                      >
+                        <span
+                          className={`share-swatch share-swatch-${style}`}
+                          aria-hidden="true"
+                        >
+                          Aa
+                        </span>
+                        {style === "forest" ? "Forest" : "Paper"}
+                      </button>
+                    ))}
+                  </div>
+                </fieldset>
+                <fieldset className="share-detail">
+                  <legend>Detail level</legend>
+                  <div className="share-detail-options">
+                    <button
+                      type="button"
+                      aria-pressed={!detailed}
+                      onClick={() => setDetailed(false)}
+                    >
+                      Summary
+                    </button>
+                    <button
+                      type="button"
+                      aria-pressed={detailed}
+                      onClick={() => setDetailed(true)}
+                    >
+                      Detailed
+                    </button>
+                  </div>
+                  <p>
+                    {detailed
+                      ? "Activity chart, session statistics, time coverage and up to six books."
+                      : "Key statistics and your three most-read books."}
+                  </p>
+                </fieldset>
+                <label className="share-privacy-option">
+                  <input
+                    type="checkbox"
+                    checked={showBooks}
+                    onChange={(e) => setShowBooks(e.target.checked)}
+                  />
+                  <span>
+                    <strong>Include book covers and titles</strong>
+                    <small>
+                      {detailed
+                        ? "Show up to six ranked books."
+                        : "Show your three most-read books."}
+                    </small>
+                  </span>
+                </label>
+                <p className="share-privacy-copy muted">
+                  Generated on your device. Only the statistics and books shown
+                  here are included; your notes and highlights stay private.
+                </p>
+              </div>
+              <div className="share-export">
+                <p className="share-format">
+                  PNG image{" "}
+                  <span>{detailed ? "1080 × 1920" : "1080 × 1350"}</span>
+                </p>
+                {error && (
+                  <p role="alert" className="share-error">
+                    {error}
+                  </p>
+                )}
+                <div className="share-actions">
+                  <button
+                    className="primary"
+                    disabled={busy || !blob}
+                    onClick={download}
+                  >
+                    <Download size={18} />
+                    Download PNG
+                  </button>
+                  <button
+                    className="secondary"
+                    disabled={busy || !blob}
+                    onClick={share}
+                  >
+                    <Share2 size={18} />
+                    Share image
+                  </button>
+                </div>
+                <p className="share-export-note muted">
+                  Share image opens your device’s sharing options when
+                  supported, or downloads the PNG. Nothing is posted
+                  automatically.
+                </p>
+              </div>
+            </div>
           </div>
-          <p className="muted">
-            Share image opens your device’s sharing options when supported, or
-            downloads the PNG. Nothing is posted automatically.
-          </p>
         </Modal>
       )}
     </>
