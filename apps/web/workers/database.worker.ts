@@ -1,6 +1,7 @@
 /// <reference lib="webworker" />
 import initSqlJs from "sql.js";
 import { appPath } from "../lib/paths";
+import { BrowserSnapshots } from "../lib/persistence";
 import { Store } from "../../../packages/storage";
 import {
   discover,
@@ -15,49 +16,8 @@ import type {
 } from "../../../packages/core";
 postMessage({ asset: self.location.href });
 let store: Store;
-let storage = "IndexedDB";
-let opfs: FileSystemDirectoryHandle | undefined;
-let idb: IDBDatabase;
+const snapshots = new BrowserSnapshots();
 let releaseLock: (() => void) | undefined;
-async function openIdb() {
-  return new Promise<IDBDatabase>((resolve, reject) => {
-    const r = indexedDB.open("kobo-books-summary", 1);
-    r.onupgradeneeded = () => r.result.createObjectStore("snapshots");
-    r.onsuccess = () => resolve(r.result);
-    r.onerror = () => reject(r.error);
-  });
-}
-async function idbRead() {
-  return new Promise<Uint8Array | undefined>((resolve, reject) => {
-    const r = idb
-      .transaction("snapshots")
-      .objectStore("snapshots")
-      .get("database");
-    r.onsuccess = () =>
-      resolve(r.result ? new Uint8Array(r.result) : undefined);
-    r.onerror = () => reject(r.error);
-  });
-}
-async function save(bytes: Uint8Array) {
-  if (opfs) {
-    const h = await opfs.getFileHandle("library.sqlite", { create: true });
-    const writer = await h.createWritable();
-    try {
-      await writer.write(bytes as Uint8Array<ArrayBuffer>);
-      await writer.close();
-    } catch (e) {
-      await writer.abort();
-      throw e;
-    }
-  } else
-    await new Promise<void>((resolve, reject) => {
-      const tx = idb.transaction("snapshots", "readwrite");
-      tx.objectStore("snapshots").put(bytes, "database");
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-      tx.onabort = () => reject(tx.error);
-    });
-}
 async function initialize() {
   if (navigator.locks) {
     await new Promise<void>((resolve, reject) => {
@@ -79,29 +39,13 @@ async function initialize() {
         .catch(reject);
     });
   }
-  idb = await openIdb();
-  let bytes: Uint8Array | undefined;
-  try {
-    opfs = await navigator.storage.getDirectory();
-    storage = "OPFS · SQLite WASM";
-    try {
-      const f = await (await opfs.getFileHandle("library.sqlite")).getFile();
-      bytes = new Uint8Array(await f.arrayBuffer());
-    } catch (e) {
-      if (!(e instanceof DOMException && e.name === "NotFoundError")) throw e;
-    }
-  } catch (e) {
-    if (opfs) throw e;
-    storage = "IndexedDB · SQLite WASM";
-    bytes = await idbRead();
-  }
-  if (opfs && !bytes) bytes = await idbRead();
+  const bytes = await snapshots.load();
   const SQL = await initSqlJs({
     locateFile: () => appPath("/vendor/sql-wasm.wasm"),
   });
   store = new Store(SQL, bytes);
-  if (!bytes) await save(store.bytes());
-  return store.library(storage);
+  if (!bytes) await snapshots.save(store.bytes());
+  return store.library(snapshots.label);
 }
 async function request(m: { type: string; payload: unknown; id: number }) {
   if (m.type === "init") return initialize();
@@ -117,7 +61,7 @@ async function request(m: { type: string; payload: unknown; id: number }) {
     return attachCovers(p.preview, p.files);
   }
   if (m.type === "backup") return store.backup();
-  if (m.type === "read") return store.library(storage);
+  if (m.type === "read") return store.library(snapshots.label);
   const before = store.bytes();
   try {
     if (m.type === "commit") store.commit(m.payload as Preview);
@@ -136,8 +80,8 @@ async function request(m: { type: string; payload: unknown; id: number }) {
       );
     else if (m.type === "clear") store.clear();
     else throw Error("Unknown operation");
-    await save(store.bytes());
-    return store.library(storage);
+    await snapshots.save(store.bytes());
+    return store.library(snapshots.label);
   } catch (e) {
     store.db.close();
     store = new Store(store.SQL, before);

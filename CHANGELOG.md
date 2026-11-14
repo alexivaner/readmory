@@ -2,6 +2,8 @@
 
 ## 0.1.0 — Public beta
 
+- Fall back atomically to IndexedDB when browser filesystem writes are blocked or unsupported; remember the saved backend across reloads, retain existing libraries on failed saves, and test storage failures in Chromium, Firefox and WebKit.
+
 - More visible Ko-fi support buttons and a dismissible inline reminder after five minutes of eligible visible use, limited to once per 30 days in this browser.
 
 - Recover validated Kobalt tables around damaged indexes, retain the fullest session evidence across snapshots, and list available calendar months with active-day counts.

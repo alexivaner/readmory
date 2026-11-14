@@ -26,7 +26,7 @@ Formerly Kobo Books Summary. A local-first reading knowledge platform for **Kobo
 
 The public website is hosted on GitHub Pages. Main-branch pushes run checks, verify the deployment paths and publish automatically. Cloudflare Pages static hosting remains supported; see the deployment guide.
 
-Public beta: imports and library storage stay in your browser. Optional Open Library lookup is off until enabled. Back up regularly; site data can be cleared. See [PRIVACY.md](PRIVACY.md).
+Public beta: imports and library storage stay in your browser. Readmory uses OPFS when writable and automatically falls back to IndexedDB when filesystem writes are blocked or unsupported. The fallback remains selected on reload to preserve the latest library. If both storage methods are blocked or full, the app reports recovery steps and preserves the last saved state. Optional Open Library lookup is off until enabled. Back up regularly; site data can be cleared. See [PRIVACY.md](PRIVACY.md).
 
 ## Open the app
 
