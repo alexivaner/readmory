@@ -172,6 +172,10 @@ test("one calendar combines native Kobo history, Kobalt sessions and KOReader in
     .click();
   const dialog = page.getByRole("dialog");
   await expect(dialog.getByRole("img", { name: /Share card/ })).toBeVisible();
+  await dialog.getByRole("button", { name: "Detailed", exact: true }).click();
+  await expect(
+    dialog.getByRole("button", { name: "Download PNG", exact: true }),
+  ).toBeEnabled();
   const [download] = await Promise.all([
     page.waitForEvent("download"),
     dialog.getByRole("button", { name: "Download PNG", exact: true }).click(),
